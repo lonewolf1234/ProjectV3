@@ -1,0 +1,179 @@
+﻿<Window x:Class="VHDLGenerator.Views.Window_Signal"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VHDLGenerator.Views"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Create Signal" Height="450" Width="800" MinHeight="450" MinWidth="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        
+
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Label Content="Source" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="16" FontWeight="Bold"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Label Content="Component" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <ComboBox Name="CompS_CB" Height="25"  Margin="20,5" 
+                          ItemsSource="{Binding Path=ComponentNames}"
+                          SelectedValue="{Binding Path=SCompName}"
+                          
+                          />
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Label Content="Port" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="1">
+                <ComboBox Name="PortS_CB" Height="25" Margin="20,5"
+                          ItemsSource="{Binding Path=SCompPorts}"
+                          SelectedValue="{Binding Path=SCompPortName}"
+                          />
+            </Grid>
+
+
+            <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="2">
+                <Label Content="Destination" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" FontWeight="Bold"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="2">
+                <Label Content="Component" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="3">
+                <ComboBox Name="CompD_CB" Height="25"  Margin="20,5" 
+                          ItemsSource="{Binding Path=ComponentNames}"
+                          SelectedValue="{Binding Path=TCompName}"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="2">
+                <Label Content="Port" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.Column="3">
+                <ComboBox Name="PortD_CB" Height="25"  Margin="20,5"
+                          ItemsSource="{Binding Path=TCompPorts}"
+                          SelectedValue="{Binding Path=TCompPortName}"/>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" IsEnabled="{Binding Path=GridEnable}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+            </Grid.ColumnDefinitions>
+
+            <!---->
+            <Grid Grid.Row="0" Grid.Column="0">
+                <Label Content="Signal Name" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="0" Grid.Column="1">
+                <TextBox Name="EntityNameTB" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,0" Height="20" Width="150" Background="WhiteSmoke"
+                         Text="{Binding Path=SigEntityNameTxt , ValidatesOnDataErrors=True , UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="{Binding Path=ErrorCollection[SigEntityNameTxt]}"
+                         />
+            </Grid>
+            
+            <!---->
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Label Content="Bus" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.Column="1">
+                <CheckBox Name ="Bus_CB" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="60,5" Checked="Bus_CB_Checked" Unchecked="Bus_CB_Unchecked"
+                          IsChecked="{Binding Path=SigBusSel}"
+                />
+            </Grid>
+
+            <!---->
+            <Grid Grid.Row="2" Grid.Column="0">
+                <Label Content="MSB" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="2">
+                <TextBox Name ="MSB_TB" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,0" Height="20" Width="50" Background="WhiteSmoke" PreviewTextInput="MSB_TB_PreviewTextInput"
+                         Text="{Binding Path=MsbTxt, ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="{Binding Path=ErrorCollection[MsbTxt]}"
+                         IsEnabled="{Binding Path=BitsEnable}"
+                />
+            </Grid>
+
+            <!---->
+            <Grid Grid.Row="3" Grid.Column="0">
+                <Label Content="LSB" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.Column="1">
+                <TextBox Name="LSB_TB" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,0" Height="20" Width="50" Background="WhiteSmoke" PreviewTextInput="LSB_TB_PreviewTextInput"
+                         Text="{Binding Path=LsbTxt, ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                         ToolTip="{Binding Path=ErrorCollection[LsbTxt]}"
+                         IsEnabled="{Binding Path=BitsEnable}"
+                />
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Button
+                 Grid.Row="3"
+                Name="Cancel"
+                Content="Cancel"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Width="70"
+                Margin="0,0,150,0"
+                Click="Cancel_Click"
+            />
+
+            <Button
+                Grid.Row="3"
+                 Name="Finish"
+                Content="Finish"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Width="70"
+                Margin="0,0,50,0"
+                Click="Finish_Click"
+                IsEnabled="{Binding Path=FinishEnable}"
+            />
+        </Grid>
+
+    </Grid>
+</Window>

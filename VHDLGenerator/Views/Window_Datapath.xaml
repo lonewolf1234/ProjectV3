@@ -1,0 +1,248 @@
+﻿<Window x:Class="VHDLGenerator.Views.Window_Datapath"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VHDLGenerator.Views"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Create Datapath" Height="600" Width="600" MinHeight="600" MinWidth="600">
+    <Grid>
+
+        <!-- Grid Split into 2 sections. The first is for the name and behavourial. The second is for the table-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="*"/>
+
+        </Grid.RowDefinitions>
+
+        <!-- For name and behavourial-->
+        <Grid Grid.Row="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
+              
+            </Grid.ColumnDefinitions>
+
+
+            <!-- Left side of the first Grid -->
+            <Label
+                Grid.Row="0"
+                Grid.Column="0"
+                Content="Entity Name"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+            />
+
+            <Label
+                Grid.Row="1"
+                Grid.Column="0"
+                Content="Architecture Name"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center" 
+            />
+
+            <!-- Left side of the first Grid -->
+            <TextBox 
+                Name="EntityNameTB"
+                Grid.Row="0"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Width="150"
+                Margin="35,0"
+                Background="WhiteSmoke"
+                Text="{Binding Path=EntityNameTxt , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="{Binding Path=ErrorCollection[EntityNameTxt]}"
+            />
+
+            <TextBox
+                Name="ArchNameTB"
+                Grid.Row="1"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Left"
+                Width="150"
+                Margin="35,0"
+                Background="WhiteSmoke"
+                Text="{Binding Path=ArchNameTxt}"
+            />
+
+        </Grid>
+
+        <!-- For Port Definitions-->
+        <Grid Grid.Row="1">
+            <!-- Port Definition Stack Panel -->
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+
+                <!-- Main Stack Panel -->
+
+                <!-- Port Definition Label-->
+                <Label 
+                    Content="Port Definition"
+                    Height="30"
+                    HorizontalAlignment="Center"
+                    FontWeight="Bold"
+                    FontSize="14"
+                />
+
+                <!-- First Stack Panel-->
+                <StackPanel Orientation="Horizontal" >
+                    <Label
+                        Content="Port Name"
+                        Width="150"
+                        HorizontalContentAlignment="Right"
+                    />
+                    <TextBox
+                       Name="PortName_TB"
+                       Width="145"
+                       Margin="30,5"
+                       Text="{Binding Path=PortNameTxt , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                       ToolTip="{Binding Path=ErrorCollection[PortNameTxt]}"
+                    />
+                </StackPanel>
+
+                <!-- Second Stack Panel-->
+                <StackPanel Orientation="Horizontal" >
+                    <Label
+                        Content="Direction"
+                        Width="150"
+                        HorizontalContentAlignment="Right"
+                    />
+
+                    <ComboBox Name="Direction_CB" Width="55" Margin="30,5" 
+                              SelectedValue="{Binding Path=DirectionSel , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Path=GetDirections}"
+                              ToolTip="{Binding Path=ErrorCollection[DirectionSel]}"
+                    />
+                </StackPanel>
+
+                <!-- Third Stack Panel-->
+                <StackPanel Orientation="Horizontal" >
+                    <Label
+                        Content="Bus"
+                        Width="150"
+                        HorizontalContentAlignment="Right"
+                    />
+                    <CheckBox
+                        Name="Bus_CB" 
+                        Margin="30,5"
+                        IsChecked="{Binding Path=BusSel }"
+                    />
+                </StackPanel>
+
+                <!-- Fourth Stack Panel-->
+                <StackPanel Orientation="Horizontal" >
+                    <Label
+                        Content="MSB"
+                        Width="150"
+                        HorizontalContentAlignment="Right"
+                    />
+                    <TextBox
+                       Name="MSB_TB"
+                       Width="55"
+                       Margin="30,5"
+                       Text="{Binding Path=MsbTxt , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                       ToolTip="{Binding Path=ErrorCollection[MsbTxt]}"
+                       IsEnabled="{Binding Path=BitsEnable}"
+                    />
+                </StackPanel>
+
+                <!-- Fifth Stack Panel-->
+                <StackPanel Orientation="Horizontal" >
+                    <Label
+                        Content="LSB"
+                        Width="150"
+                        HorizontalContentAlignment="Right"
+                    />
+                    <TextBox
+                       Name="LSB_TB"
+                       Width="55"
+                       Margin="30,5"
+                       Text="{Binding Path=LsbTxt , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                       ToolTip="{Binding Path=ErrorCollection[LsbTxt]}"
+                       IsEnabled="{Binding Path=BitsEnable}"
+                    />
+                </StackPanel>
+
+                <Button
+                    Name="AddPort"
+                    Width="70"
+                    Height="20"
+                    Margin="0,10"
+                    Content="Add Port"
+                    Click="AddPort_Click"
+                    IsEnabled="{Binding Path=AddPortEnable}"
+                />
+
+            </StackPanel>
+        </Grid>
+
+        <!-- For Port datagrid -->
+        <Grid Grid.Row="2" Margin="0,10">
+
+
+
+            <!-- DataGrid to display the port data -->
+            <DataGrid Name="PortDataGrid" VerticalAlignment="Top" Height="175" Width="408" HorizontalAlignment="Center" 
+                      ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Port Name" Width="100" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Direction" Width="100" Binding="{Binding Direction}"/>
+                    <DataGridCheckBoxColumn Header="Bus" Width="100" Binding="{Binding Bus}"/>
+                    <DataGridTextColumn Header="MSB" Width="50" Binding="{Binding MSB}"/>
+                    <DataGridTextColumn Header="LSB" Width="50" Binding="{Binding LSB}"/>
+                </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="EditPort" Header="Edit" Click="EditPort_Click"/>
+                        <MenuItem Name="DeletePort" Header="Delete" Click="DeletePort_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
+
+                <!-- Column Header text and Binding-->
+
+
+
+            </DataGrid>
+
+        </Grid>
+
+        <!-- Finish and Cancel Buttons-->
+        <Grid Grid.Row="3">
+            <Button
+                Grid.Row="3"
+                Name="Cancel"
+                Content="Cancel"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Width="70"
+                Margin="0,0,150,0"
+                Click="Cancel_Click"
+            />
+
+            <Button
+                Name="Finish"
+                Content="Finish"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Right"
+                Width="70"
+                Margin="0,0,50,0"
+                Click="Finish_Click"
+                IsEnabled="{Binding Path=FinishEnable}" 
+                
+            />
+        </Grid>
+
+    </Grid>
+</Window>

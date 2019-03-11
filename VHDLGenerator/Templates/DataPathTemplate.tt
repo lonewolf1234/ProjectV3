@@ -1,0 +1,91 @@
+﻿<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@import namespace="VHDLGenerator.Models" #>
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+entity <#if(Name != null){#><#=Name #> <#;} #>is
+<# 
+			if(Ports.Count > 0)
+			{
+#>
+  Port(<#
+				foreach(string port in MainPortsData)
+				{#> <#= port #> 
+<#				}
+			}#>
+end <#=Name #>;
+
+architecture <#= ArchName #> of <#=Name #> is
+
+<#
+    if(Components.Count > 0)
+    {
+        foreach(ComponentModel component in Components)
+        {
+#>
+component <#=                component.Name #>
+<#
+            if(component.Ports != null)
+            {
+#>
+  Port(<#
+                foreach(string port in PortTranslation(component.Ports))
+                {
+#> <#=                        port#>
+<#
+                }
+            }
+#>
+end component;
+
+<#
+        }
+    }
+#>
+<#
+    if(SignalData.Count > 0)
+    {
+        foreach(string signal in SignalData)
+        {
+#>
+<#=         signal#>
+<#
+        }
+    }
+#>
+
+begin
+
+<#
+    if(Components.Count > 0)
+    {
+        foreach(ComponentModel component in Components)
+        {
+            if(component.ID != null)
+            {
+#>
+cop<#=component.ID #> : <#=component.Name #>
+<#
+                if(component.Ports != null)
+                {
+#>
+ port map(<# 
+                    foreach(string s in PortMappingProcess(component,Signals,Name))
+                    {
+#> <#=                            s #>
+<#
+                    }
+                }
+            }
+#>
+
+<#
+        }
+    }
+ #>
+
+end <#=ArchName#>;
