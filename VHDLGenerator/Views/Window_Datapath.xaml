@@ -193,7 +193,7 @@
 
             <!-- DataGrid to display the port data -->
             <DataGrid Name="PortDataGrid" VerticalAlignment="Top" Height="175" Width="408" HorizontalAlignment="Center" 
-                      ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                      ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding DataGridItem}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Port Name" Width="100" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Direction" Width="100" Binding="{Binding Direction}"/>
@@ -204,8 +204,8 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Name="EditPort" Header="Edit" Click="EditPort_Click"/>
-                        <MenuItem Name="DeletePort" Header="Delete" Click="DeletePort_Click"/>
+                        <MenuItem Name="EditPort" Header="Edit" Command="{Binding EditPortCommand}"/>
+                        <MenuItem Name="DeletePort" Header="Delete" Command="{Binding DeletePortCommand}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
