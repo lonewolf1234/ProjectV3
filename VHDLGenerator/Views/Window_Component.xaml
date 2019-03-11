@@ -193,7 +193,7 @@
 
             <!-- DataGrid to display the port data -->
             <DataGrid Name="PortDataGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Height="175"
-                      ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True">
+                      ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding DataGridItem}">
 
                 <!-- Column Header text and Binding-->
                 <DataGrid.Columns>
@@ -206,8 +206,8 @@
 
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Name="EditPort" Header="Edit" Click="EditPort_Click"/>
-                        <MenuItem Name="DeletePort" Header="Delete" Click="DeletePort_Click"/>
+                        <MenuItem Name="EditPort" Header="Edit" Command="{Binding EditPortCommand}"/>
+                        <MenuItem Name="DeletePort" Header="Delete" Command="{Binding DeletePortCommand}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
@@ -218,7 +218,7 @@
         <Grid Grid.Row="3">
             <Button
                 Grid.Row="3"
-                Background="LightCoral"
+                
                 Name="Cancel"
                 Content="Cancel"
                 VerticalAlignment="Center"
@@ -230,7 +230,7 @@
 
             <Button
                 Name="Finish"
-                Background="LightGreen"
+               
                 Content="Finish"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"

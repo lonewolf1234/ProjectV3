@@ -7,6 +7,7 @@ using VHDLGenerator.Models;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Collections.ObjectModel;
+using VHDLGenerator.ViewModels.Commands;
 
 namespace VHDLGenerator.ViewModels
 {
@@ -25,8 +26,8 @@ namespace VHDLGenerator.ViewModels
         }
         #endregion
         private DataPathModel _datapath;
-        private ComponentModel Component = new ComponentModel();
-        private List<PortModel> Ports = new List<PortModel>();
+        private ComponentModel Component;
+        //private List<PortModel> Ports = new List<PortModel>();
         private PortModel Port = new PortModel();
         private bool AddPort { get; set; }
 
@@ -35,12 +36,63 @@ namespace VHDLGenerator.ViewModels
             _datapath = new DataPathModel();
             _datapath = data;
 
+            Component = new ComponentModel
+            {
+                Ports = new List<PortModel>()
+            };
+
+            EditPortCommand = new EditCommand(EditPort);            //command stuff
+            DeletePortCommand = new DeleteCommand(DeletePort);
+
             ArchNameTxt = "Behavioural";
             this._BitsEnable = false;
 
             ErrorCollection.Add("MsbTxt", null);
             ErrorCollection.Add("LsbTxt", null);
         }
+
+        #region Edit Command Logic
+        public EditCommand EditPortCommand { get; private set; }
+        public void EditPort()
+        {
+            //MessageBox.Show(DataGridItem.Name);
+
+            PortModel SelectedPort = new PortModel();
+            SelectedPort = DataGridItem;                                //stores the selected port model
+
+            Component.Ports.Remove(DataGridItem);                        //remove port from datapath object
+            //Ports.Remove(DataGridItem);
+            Datagrid.Remove(DataGridItem);                              //remove port from datagrid
+
+            this.Port.Clear();
+
+            this.Port.Name = SelectedPort.Name;
+            OnPropertyChanged("PortNameTxt");
+            this.Port.Direction = SelectedPort.Direction;
+            OnPropertyChanged("DirectionSel");
+            this.Port.Bus = SelectedPort.Bus;
+            OnPropertyChanged("BusSel");
+            this.Port.MSB = SelectedPort.MSB;
+            OnPropertyChanged("MsbTxt");
+            this.Port.LSB = SelectedPort.LSB;
+            OnPropertyChanged("LsbTxt");
+        }
+        #endregion
+
+        #region Delete Command Logic
+        public DeleteCommand DeletePortCommand { get; private set; }
+        public void DeletePort()
+        {
+            PortModel SelectedPort = new PortModel();
+            SelectedPort = DataGridItem;
+
+            Component.Ports.Remove(DataGridItem);                        //remove port from datapath object
+            //Ports.Remove(DataGridItem);
+            Datagrid.Remove(DataGridItem);                              //remove port from datagrid
+        }
+        #endregion
+
+        public PortModel DataGridItem { get; set; }
 
         private ObservableCollection<PortModel> _datagrid = new ObservableCollection<PortModel>();
         public ObservableCollection<PortModel> Datagrid //
@@ -107,7 +159,7 @@ namespace VHDLGenerator.ViewModels
                 this.AddPort = value;
                 if (AddPortSel == true)
                 {
-                    Ports.Add(GetPortData);
+                    //Ports.Add(GetPortData);
                     Datagrid.Add(GetPortData);
                     Component.Ports = Datagrid.ToList();
 
@@ -398,7 +450,7 @@ namespace VHDLGenerator.ViewModels
 
         public bool PNameExist(string name)
         {
-            if (Ports.Exists(x => x.Name == name))
+            if (Component.Ports.Exists(x => x.Name == name))
                 return true;
             else
                 return false;
