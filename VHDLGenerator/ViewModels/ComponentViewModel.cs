@@ -43,7 +43,7 @@ namespace VHDLGenerator.ViewModels
         }
 
         private ObservableCollection<PortModel> _datagrid = new ObservableCollection<PortModel>();
-        public ObservableCollection<PortModel> Datagrid
+        public ObservableCollection<PortModel> Datagrid //
         {
             get
             {
