@@ -254,6 +254,8 @@ namespace VHDLGenerator.ViewModels
                                 this._FinishEnable = true;
                             }
                         }
+                        else
+                            this._FinishEnable = false; //do some more stuff here
                     }
                     else
                         this._FinishEnable = false;
