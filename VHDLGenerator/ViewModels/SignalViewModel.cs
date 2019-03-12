@@ -43,16 +43,18 @@ namespace VHDLGenerator.ViewModels
             get { return Signal.Name; }
             set { Signal.Name = value; }
         }
-        public string MsbTxt
-        {
-            get {return Signal.MSB; }
-            set {Signal.MSB = value; }
-        }
-        public string LsbTxt
-        {
-            get { return Signal.LSB; }
-            set { Signal.LSB = value; }
-        }
+
+        //public string MsbTxt
+        //{
+        //    get {return Signal.MSB; }
+        //    set {Signal.MSB = value; }
+        //}
+        //public string LsbTxt
+        //{
+        //    get { return Signal.LSB; }
+        //    set { Signal.LSB = value; }
+        //}
+
         public bool GridEnable
         {
             get
@@ -63,14 +65,14 @@ namespace VHDLGenerator.ViewModels
                     {
                         ErrorCollection["SigEntityNameTxt"] = null;
                     }
-                    if (ErrorCollection.ContainsKey("MsbTxt"))
-                    {
-                        ErrorCollection["MsbTxt"] = null;
-                    }
-                    if (ErrorCollection.ContainsKey("LsbTxt"))
-                    {
-                        ErrorCollection["LsbTxt"] = null;
-                    }
+                    //if (ErrorCollection.ContainsKey("MsbTxt"))
+                    //{
+                    //    ErrorCollection["MsbTxt"] = null;
+                    //}
+                    //if (ErrorCollection.ContainsKey("LsbTxt"))
+                    //{
+                    //    ErrorCollection["LsbTxt"] = null;
+                    //}
                     OnPropertyChanged("ErrorCollection");
                     this._GridEnable = false;
                 }
@@ -80,17 +82,17 @@ namespace VHDLGenerator.ViewModels
             }
             set{ this._GridEnable = value;}
         }
-        public bool SigBusSel
-        {
-            get { return this.Signal.Bus; }
-            set
-            {
-                this.Signal.Bus = value;
-                OnPropertyChanged("BitsEnable");
-                OnPropertyChanged("MsbTxt");
-                OnPropertyChanged("LsbTxt");
-            }
-        }
+        //public bool SigBusSel
+        //{
+        //    get { return this.Signal.Bus; }
+        //    set
+        //    {
+        //        this.Signal.Bus = value;
+        //        OnPropertyChanged("BitsEnable");
+        //        OnPropertyChanged("MsbTxt");
+        //        OnPropertyChanged("LsbTxt");
+        //    }
+        //}
 
         //item source - components
         //use as source for the combobox items
@@ -101,6 +103,7 @@ namespace VHDLGenerator.ViewModels
                 return GetCompName();
             }
         }
+
         public SignalModel GetSignal
         {
             get { return this.Signal; }
@@ -183,16 +186,14 @@ namespace VHDLGenerator.ViewModels
 
         private List<string> GetPortNames(string selectedComponent, string filter)
         {
-
             List<string> names = new List<string>();
-
             try
             {
                 if (_Datapath.Name == selectedComponent)
                 {
                     foreach (PortModel port in _Datapath.Ports)
                     {
-                        if (filter == "source" && port.Direction == "in")
+                        if (filter == "source" && (port.Direction == "in" || port.Direction == "inout"))
                         {
                             names.Add(port.Name);
                         }
@@ -214,7 +215,7 @@ namespace VHDLGenerator.ViewModels
                                 {
                                     names.Add(port.Name);
                                 }
-                                else if (filter == "target" && port.Direction == "in")
+                                else if (filter == "target" && (port.Direction == "in" || port.Direction == "inout"))
                                 {
                                     names.Add(port.Name);
                                 }
@@ -222,11 +223,8 @@ namespace VHDLGenerator.ViewModels
                         }
                     }
                 }
-
-                
             }
             catch (Exception) { };
-            
             return names;
         }
         #endregion
@@ -242,23 +240,19 @@ namespace VHDLGenerator.ViewModels
                 {
                     if (!SignalExist(Signal, _Datapath))
                     {
-                        if (GridEnable == true && BitsEnable == true)
+                        if (BitWidthMatch(Signal, _Datapath))                                                   //figure out where to put this
                         {
-                            if (ErrorCollection["SigEntityNameTxt"] == null && ErrorCollection["MsbTxt"] == null && ErrorCollection["LsbTxt"] == null)
-                                this._FinishEnable = true;
+                            if (GridEnable == true)
+                            {
+                                if (ErrorCollection["SigEntityNameTxt"] == null)
+                                    this._FinishEnable = true;
+                                else
+                                    this._FinishEnable = false;
+                            }
                             else
-                                this._FinishEnable = false;
-                        }
-                        else if (GridEnable == true)
-                        {
-                            if (ErrorCollection["SigEntityNameTxt"] == null)
+                            {
                                 this._FinishEnable = true;
-                            else
-                                this._FinishEnable = false;
-                        }
-                        else
-                        {
-                            this._FinishEnable = true;
+                            }
                         }
                     }
                     else
@@ -274,39 +268,39 @@ namespace VHDLGenerator.ViewModels
         }
 
 
-        public bool _BitsEnable { get; set; }
-        public bool BitsEnable
-        {
-            get
-            {
-                if (SigBusSel == true)
-                {
-                    this._BitsEnable = true;
-                }
-                else
-                {
-                    this.Signal.MSB = null;
-                    this.Signal.LSB = null;
+        //public bool _BitsEnable { get; set; }
+        //public bool BitsEnable
+        //{
+        //    get
+        //    {
+        //        if (SigBusSel == true)
+        //        {
+        //            this._BitsEnable = true;
+        //        }
+        //        else
+        //        {
+        //            this.Signal.MSB = null;
+        //            this.Signal.LSB = null;
 
-                    if (ErrorCollection.ContainsKey("MsbTxt"))
-                    {
-                        ErrorCollection["MsbTxt"] = null;
-                    }
-                    if (ErrorCollection.ContainsKey("LsbTxt"))
-                    {
-                        ErrorCollection["LsbTxt"] = null;
-                    }
-                    OnPropertyChanged("ErrorCollection");
-                    this._BitsEnable = false;
-                }
-                return this._BitsEnable;
-            }
-            set
-            {
-                this._BitsEnable = value;
+        //            if (ErrorCollection.ContainsKey("MsbTxt"))
+        //            {
+        //                ErrorCollection["MsbTxt"] = null;
+        //            }
+        //            if (ErrorCollection.ContainsKey("LsbTxt"))
+        //            {
+        //                ErrorCollection["LsbTxt"] = null;
+        //            }
+        //            OnPropertyChanged("ErrorCollection");
+        //            this._BitsEnable = false;
+        //        }
+        //        return this._BitsEnable;
+        //    }
+        //    set
+        //    {
+        //        this._BitsEnable = value;
 
-            }
-        }
+        //    }
+        //}
 
         public Dictionary<string, string> ErrorCollection { get; private set; } = new Dictionary<string, string>();
         public List<string> ReservedWords = new List<string>
@@ -350,30 +344,38 @@ namespace VHDLGenerator.ViewModels
                         else if (IsReservedWord(SigEntityNameTxt))
                             result = "This is a Reserved Word";
                         break;
+                    //case "SCompPortName":
+                    //    if (!BitWidthMatch(Signal, _Datapath))
+                    //        result = "Bit Width Mismatch";
+                    //    break;
+                    //case "TCompPortName":
+                    //    if (!BitWidthMatch(Signal, _Datapath))
+                    //        result = "Bit Width Mismatch";
+                    //    break;
 
-                    case "MsbTxt":
-                        if (BitsEnable == true)
-                        {
-                            if (string.IsNullOrWhiteSpace(MsbTxt))
-                                result = "MSB cannot be empty";
-                            else if (IsInterger(MsbTxt))
-                                result = "Only Integers are allowed";
-                            break;
-                        }
-                        else
-                            break;
+                        //case "MsbTxt":
+                        //    if (BitsEnable == true)
+                        //    {
+                        //        if (string.IsNullOrWhiteSpace(MsbTxt))
+                        //            result = "MSB cannot be empty";
+                        //        else if (IsInterger(MsbTxt))
+                        //            result = "Only Integers are allowed";
+                        //        break;
+                        //    }
+                        //    else
+                        //        break;
 
-                    case "LsbTxt":
-                        if (BitsEnable == true)
-                        {
-                            if (string.IsNullOrWhiteSpace(LsbTxt))
-                                result = "LSB cannot be empty";
-                            else if (IsInterger(LsbTxt))
-                                result = "Only Integers are allowed";
-                            break;
-                        }
-                        else
-                            break;
+                        //case "LsbTxt":
+                        //    if (BitsEnable == true)
+                        //    {
+                        //        if (string.IsNullOrWhiteSpace(LsbTxt))
+                        //            result = "LSB cannot be empty";
+                        //        else if (IsInterger(LsbTxt))
+                        //            result = "Only Integers are allowed";
+                        //        break;
+                        //    }
+                        //    else
+                        //        break;
                 }
 
                 if (ErrorCollection.ContainsKey(propertyname))
@@ -403,11 +405,11 @@ namespace VHDLGenerator.ViewModels
             return result;
         }
 
-        public bool IsInterger(string word)
-        {
-            Regex regex = new Regex("[^0-9]+");
-            return (regex.IsMatch(word));
-        }
+        //public bool IsInterger(string word)
+        //{
+        //    Regex regex = new Regex("[^0-9]+");
+        //    return (regex.IsMatch(word));
+        //}
 
         public bool IsValidName(string word)
         {
@@ -421,13 +423,13 @@ namespace VHDLGenerator.ViewModels
             return (regex.IsMatch(word));
         }
 
-        public bool IsDirectionSel(string word)
-        {
-            if (word == null)
-                return false;
-            else
-                return true;
-        }
+        //public bool IsDirectionSel(string word)
+        //{
+        //    if (word == null)
+        //        return false;
+        //    else
+        //        return true;
+        //}
 
         public bool SignalExist(SignalModel signal, DataPathModel data)
         {
@@ -469,6 +471,32 @@ namespace VHDLGenerator.ViewModels
                     }
                 }
             }
+            return result;
+        }
+
+        public bool BitWidthMatch(SignalModel signal, DataPathModel data)
+        {
+            bool result = false;
+            //List<ComponentModel> CompList = new List<ComponentModel>();
+            //List<PortModel> PortList = new List<PortModel>();
+
+            ComponentModel SourceComp = new ComponentModel();
+            ComponentModel TargetComp = new ComponentModel();
+
+            PortModel SourcePort = new PortModel();
+            PortModel TargetPort = new PortModel();
+
+            SourceComp = data.Components.Find(x => x.Name == signal.Source_Comp);
+            TargetComp = data.Components.Find(x => x.Name == signal.Target_Comp);
+
+            SourcePort = SourceComp.Ports.Find(x => x.Name == signal.Source_port);
+            TargetPort = TargetComp.Ports.Find(x => x.Name == signal.Target_port);
+
+            if (SourcePort.MSB == TargetPort.MSB && SourcePort.LSB == TargetPort.LSB)
+                result = true;
+            else
+                result = false;
+
             return result;
         }
 

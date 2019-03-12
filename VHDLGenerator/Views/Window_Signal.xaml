@@ -6,16 +6,14 @@
         xmlns:local="clr-namespace:VHDLGenerator.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Create Signal" Height="450" Width="800" MinHeight="450" MinWidth="800">
+        Title="Create Signal" Height="300" Width="800" MinHeight="300" MinWidth="800">
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        
 
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
@@ -42,9 +40,7 @@
             <Grid Grid.Row="1" Grid.Column="1">
                 <ComboBox Name="CompS_CB" Height="25"  Margin="20,5" 
                           ItemsSource="{Binding Path=ComponentNames}"
-                          SelectedValue="{Binding Path=SCompName}"
-                          
-                          />
+                          SelectedValue="{Binding Path=SCompName}"/>
             </Grid>
 
             <Grid Grid.Row="2" Grid.Column="0">
@@ -89,9 +85,6 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -109,43 +102,6 @@
                          Text="{Binding Path=SigEntityNameTxt , ValidatesOnDataErrors=True , UpdateSourceTrigger=PropertyChanged}"
                          ToolTip="{Binding Path=ErrorCollection[SigEntityNameTxt]}"
                          />
-            </Grid>
-            
-            <!---->
-            <Grid Grid.Row="1" Grid.Column="0">
-                <Label Content="Bus" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Grid.Row="1" Grid.Column="1">
-                <CheckBox Name ="Bus_CB" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="60,5" Checked="Bus_CB_Checked" Unchecked="Bus_CB_Unchecked"
-                          IsChecked="{Binding Path=SigBusSel}"
-                />
-            </Grid>
-
-            <!---->
-            <Grid Grid.Row="2" Grid.Column="0">
-                <Label Content="MSB" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Grid.Column="1" Grid.Row="2">
-                <TextBox Name ="MSB_TB" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,0" Height="20" Width="50" Background="WhiteSmoke" PreviewTextInput="MSB_TB_PreviewTextInput"
-                         Text="{Binding Path=MsbTxt, ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="{Binding Path=ErrorCollection[MsbTxt]}"
-                         IsEnabled="{Binding Path=BitsEnable}"
-                />
-            </Grid>
-
-            <!---->
-            <Grid Grid.Row="3" Grid.Column="0">
-                <Label Content="LSB" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-            </Grid>
-
-            <Grid Grid.Row="3" Grid.Column="1">
-                <TextBox Name="LSB_TB" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="60,0" Height="20" Width="50" Background="WhiteSmoke" PreviewTextInput="LSB_TB_PreviewTextInput"
-                         Text="{Binding Path=LsbTxt, ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
-                         ToolTip="{Binding Path=ErrorCollection[LsbTxt]}"
-                         IsEnabled="{Binding Path=BitsEnable}"
-                />
             </Grid>
 
         </Grid>
