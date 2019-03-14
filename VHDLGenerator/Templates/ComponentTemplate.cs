@@ -18,7 +18,7 @@ namespace VHDLGenerator.Templates
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+    #line 1 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class ComponentTemplate : ComponentTemplateBase
     {
@@ -30,29 +30,29 @@ namespace VHDLGenerator.Templates
         {
             this.Write("library IEEE;\r\nuse IEEE.STD_LOGIC_1164.ALL;\r\n\r\nentity ");
             
-            #line 9 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 9 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
 if(Name != null){
             
             #line default
             #line hidden
             
-            #line 9 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 9 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 9 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 9 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
 ;} 
             
             #line default
             #line hidden
             this.Write(" is\r\n");
             
-            #line 10 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 10 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
  
-			if(Ports!= null)
+			if(Ports.Count > 0)
 			{
 
             
@@ -60,7 +60,7 @@ if(Name != null){
             #line hidden
             this.Write("  Port(");
             
-            #line 14 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 14 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
 
 				foreach(string port in CompPortsData)
 				{
@@ -70,14 +70,14 @@ if(Name != null){
             #line hidden
             this.Write(" ");
             
-            #line 17 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 17 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(port));
             
             #line default
             #line hidden
             this.Write(" \r\n");
             
-            #line 18 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 18 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
 				}
 			}
 
@@ -86,28 +86,28 @@ if(Name != null){
             #line hidden
             this.Write("end ");
             
-            #line 21 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 21 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(";\r\n\r\narchitecture ");
             
-            #line 23 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 23 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ArchName));
             
             #line default
             #line hidden
             this.Write(" of ");
             
-            #line 23 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 23 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Name));
             
             #line default
             #line hidden
             this.Write(" is\r\nbegin\r\n\r\n\r\nend ");
             
-            #line 27 "C:\Users\avide\Desktop\ECNG 3020\repos\ProjectV2\VHDLGenerator\Templates\ComponentTemplate.tt"
+            #line 27 "C:\Users\815006656\Desktop\Project repo\ProjectV3\VHDLGenerator\Templates\ComponentTemplate.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ArchName));
             
             #line default

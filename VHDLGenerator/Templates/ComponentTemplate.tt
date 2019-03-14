@@ -8,7 +8,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity <#if(Name != null){#><#=Name #> <#;} #> is
 <# 
-			if(Ports!= null)
+			if(Ports.Count > 0)
 			{
 #>
   Port(<#
