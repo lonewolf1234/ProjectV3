@@ -34,6 +34,8 @@ namespace VHDLGenerator.Views
         /// 
         private DataPathModel _dataPath;
 
+        private MainViewModel _mainViewModel;
+
         /// <summary>
         /// Path Location of the Debug Folder in Visual Studio IDE
         /// </summary>
@@ -70,8 +72,8 @@ namespace VHDLGenerator.Views
             Btn_Signal.IsEnabled = false;
             Btn_Datapath.IsEnabled = true;
 
-            //Data = new MainViewModel(DataPath);
-            //this.DataContext = Data;
+            _mainViewModel = new MainViewModel();
+            this.DataContext = _mainViewModel;
             //_loaded = false;
         }
 
@@ -233,7 +235,7 @@ namespace VHDLGenerator.Views
                 foreach (ComponentModel comp in data.Components)
                 {
                     TreeViewData tv1 = new TreeViewData();
-                    tv1.Title = comp.Name;                      //Add components as children to the section
+                    tv1.Title = "cop" + comp.ID + ": " + comp.Name;                      //Add components as children to the section
                     maintv.Items.Add(tv1);
                 }
                 //maintv.Items.Add(tv);
