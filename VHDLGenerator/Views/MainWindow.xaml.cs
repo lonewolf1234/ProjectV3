@@ -90,8 +90,8 @@ namespace VHDLGenerator.Views
                     Btn_Datapath.IsEnabled = false;
                     GenerateDatapath(_dataPath);                            //DataPath Code Generation
 
-                    LoadFileTree();                                         //Loads text into the Project file tree view using info in _dataPath
-                    LoadCodeTree();                                         //Loads generated code file names into the tree view using the _newfolderPath
+                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
                 }
                 catch (Exception) { }
             }
@@ -114,8 +114,8 @@ namespace VHDLGenerator.Views
                     GenerateDatapath(_dataPath);                            //Regenerates Datapath Code File
                     GenerateComponents(_dataPath);                          //Generates Component Code File
 
-                    LoadFileTree();                                         //Loads text into the Project file tree view using info in _dataPath
-                    LoadCodeTree();                                         //Loads generated code file names into the tree view using the _newfolderPath
+                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
                     Btn_Signal.IsEnabled = true;
                     #region Debug
                     //var newDP_ResultJSON = JsonConvert.SerializeObject(_dataPath, Formatting.Indented);
@@ -137,8 +137,8 @@ namespace VHDLGenerator.Views
 
                     GenerateDatapath(_dataPath);                            //Regenerates the Datapath Code using the new data from the signal menu (Port Mapping)
 
-                    LoadFileTree();                                         //Loads text into the Project file tree view using info in _dataPath
-                    LoadCodeTree();                                         //Loads generated code file names into the tree view using the _newfolderPath
+                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
 
                     #region Debug
                     //System.IO.File.WriteAllText(System.IO.Path.Combine(DebugPath, "SignalJSON.txt"), window_Signal.GetSignalJSON);
@@ -201,50 +201,50 @@ namespace VHDLGenerator.Views
         /// <summary>
         /// Automatically populates the Project File TreeView based on the data contained _dataPath
         /// </summary>
-        public void LoadFileTree()
+        public void LoadFileTree(DataPathModel data)
         {
             CustomTreeView.Items.Clear();                       //Clears all items from the existing TreeView
 
             TreeViewData maintv = new TreeViewData();
 
-            if (_dataPath.Name != null)
+            if (data.Name != null)
             {
                 TreeViewData tv = new TreeViewData();
-                maintv.Title = _dataPath.Name;                  //Adds the main tree named after the datapath name                                               
+                maintv.Title = data.Name;                  //Adds the main tree named after the datapath name                                               
             }
 
-            if (_dataPath.Ports != null)
-            {
-                TreeViewData tv = new TreeViewData();
-                tv.Title = "Ports";                             //Add section named ports
-                foreach (PortModel port in _dataPath.Ports)
-                {
-                    TreeViewData tv1 = new TreeViewData();
-                    tv1.Title = port.Name;                      //Add ports as children to the section
-                    tv.Items.Add(tv1);
-                }
-                maintv.Items.Add(tv);
-            }
+            //if (_dataPath.Ports != null)
+            //{
+            //    TreeViewData tv = new TreeViewData();
+            //    tv.Title = "Ports";                             //Add section named ports
+            //    foreach (PortModel port in _dataPath.Ports)
+            //    {
+            //        TreeViewData tv1 = new TreeViewData();
+            //        tv1.Title = port.Name;                      //Add ports as children to the section
+            //        tv.Items.Add(tv1);
+            //    }
+            //    maintv.Items.Add(tv);
+            //}
 
-            if (_dataPath.Components != null)
+            if (data.Components != null)
             {
-                TreeViewData tv = new TreeViewData();
-                tv.Title = "Components";                        //Add section named components
-                foreach (ComponentModel comp in _dataPath.Components)
+                //TreeViewData tv = new TreeViewData();
+                //tv.Title = "Components";                        //Add section named components
+                foreach (ComponentModel comp in data.Components)
                 {
                     TreeViewData tv1 = new TreeViewData();
                     tv1.Title = comp.Name;                      //Add components as children to the section
-                    tv.Items.Add(tv1);
+                    maintv.Items.Add(tv1);
                 }
-                maintv.Items.Add(tv);
+                //maintv.Items.Add(tv);
             }
 
-            if (_dataPath.Signals != null)
-            {
-                TreeViewData tv = new TreeViewData();
-                tv.Title = "Signal";                            //Add section named signalss
-                maintv.Items.Add(tv);
-            }
+            //if (_dataPath.Signals != null)
+            //{
+            //    TreeViewData tv = new TreeViewData();
+            //    tv.Title = "Signal";                            //Add section named signalss
+            //    maintv.Items.Add(tv);
+            //}
 
             CustomTreeView.Items.Add(maintv);
         }
@@ -252,21 +252,84 @@ namespace VHDLGenerator.Views
         /// <summary>
         /// Automatically populates the Generated Code File TreeView based on what is contained in the Generated Code Folder
         /// </summary>
-        public void LoadCodeTree()
+        public void LoadCodeTree(DataPathModel data)
         {
             CodeTreeView.Items.Clear();                                                         //Clears all items in the CodeTreeView
 
-            List<string> FileNames = new List<string>(Directory.GetFiles(_newFolderPath));      //Gets all file names in the Generated Code Folder
+            List<string> PathNames = new List<string>(Directory.GetFiles(_newFolderPath));      //Gets all file names in the Generated Code Folder
+            List<string> FileNames = new List<string>();
+            FileNames = PathtoName(PathNames);
 
-            foreach (string Path in FileNames)
+            if (data.Name != null)
             {
-                string FileName = "";
-                Uri uri = new Uri(Path);                                                        //Gets the path of the item
-                FileName = uri.Segments[uri.Segments.Length - 1];                               //Takes the last segment of the item URI (File Name)
-                TreeViewData tv = new TreeViewData();
-                tv.Title = FileName;                                                            //Adds the file name to the CodeTreeView
-                CodeTreeView.Items.Add(tv);
+                TreeViewData DataPathtv = new TreeViewData()
+                {
+                    Title = "Datapath"
+                };
+
+                foreach(string name in FileNames)
+                {
+                    if(name == data.Name + ".txt")
+                    {
+                        TreeViewData tv = new TreeViewData()
+                        {
+                            Title = name
+                        };
+                        DataPathtv.Items.Add(tv);
+                    }
+                }
+                TreeViewItem item = new TreeViewItem();
+                CodeTreeView.Items.Add(DataPathtv);
             }
+
+            if (data.Components.Count > 0)
+            {
+                TreeViewData Componenttv = new TreeViewData()
+                {
+                    Title = "Components"
+                };
+
+                foreach (string name in FileNames)
+                {
+                    if (name != data.Name + ".txt")
+                    {
+                        TreeViewData tv = new TreeViewData()
+                        {
+                            Title = name
+                        };
+                        Componenttv.Items.Add(tv);
+                    }
+                }
+                CodeTreeView.Items.Add(Componenttv);
+            }
+
+            //foreach (string Path in FileNames)
+            //{
+            //    string FileName = "";
+            //    Uri uri = new Uri(Path);                                                        //Gets the path of the item
+            //    FileName = uri.Segments[uri.Segments.Length - 1];                               //Takes the last segment of the item URI (File Name)
+            //    TreeViewData tv = new TreeViewData();
+            //    tv.Title = FileName;                                                            //Adds the file name to the CodeTreeView
+            //    CodeTreeView.Items.Add(tv);
+            //}
+        }
+
+        public List<string> PathtoName(List<string> paths)
+        {
+            List<string> Names = new List<string>();
+
+            if (paths != null)
+            {
+                foreach (string Path in paths)
+                {
+                    string FileName = "";
+                    Uri uri = new Uri(Path);                                                        //Gets the path of the item
+                    FileName = uri.Segments[uri.Segments.Length - 1];                               //Takes the last segment of the item URI (File Name)
+                    Names.Add(FileName);
+                }
+            }
+
+            return Names;
         }
 
         /// <summary>
