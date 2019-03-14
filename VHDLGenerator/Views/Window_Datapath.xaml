@@ -228,6 +228,7 @@
                 HorizontalAlignment="Right"
                 Width="70"
                 Margin="0,0,150,0"
+                Background="LightCoral"
                 Click="Cancel_Click"
             />
 

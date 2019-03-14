@@ -9,9 +9,9 @@
         
         Title="MainWindow" Height="650" Width="1110">
     <Grid>
-        <Grid Height="30" VerticalAlignment="Top" Background="LightSlateGray">
+        <Grid Height="30" VerticalAlignment="Top" Background="BlueViolet">
 
-            <Grid HorizontalAlignment="Left" Height="30" VerticalAlignment="Top" Width="331">
+            <StackPanel  Height="30" VerticalAlignment="Top" Margin="0,0" Orientation="Horizontal" >
 
                 <Button Name="Btn_Datapath"
                     Content="Create Datapath" 
@@ -19,7 +19,7 @@
                     VerticalAlignment="Top" 
                     Width="110" 
                     Height="30"
-                    Background="LightSlateGray"
+                    Background="LightSteelBlue"
                     Click="Btn_Datapath_Click"/>
 
                 <Button Name="Btn_Component"
@@ -27,21 +27,19 @@
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Top" 
                     Width="110" 
-                    Height="30" 
-                    Margin="110,0,0,0"
-                    Background="LightSlateGray"
+                    Height="30"
+                    Background="LightSteelBlue"
                     Click="Btn_Component_Click"/>
 
                 <Button Name="Btn_Signal"
                     Content="Create Signal" 
-                    HorizontalAlignment="Left" 
+                    HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
                     Width="110" 
                     Height="30" 
-                    Margin="220,0,0,0"
-                    Background="LightSlateGray"
+                    Background="LightSteelBlue"
                     Click="Btn_Signal_Click"/>
-            </Grid>
+            </StackPanel>
         </Grid>
 
         <Grid  Margin="0,30,0,0"  >
@@ -77,6 +75,8 @@
                         <Label Content="Generated File View" HorizontalAlignment="Stretch"  FontSize="16" FontStyle="Normal" 
                                Background="LightGray" HorizontalContentAlignment="Center"/>
 
+                        <Button Name="Btn_OpenFile" Content="Open File" Height="25" VerticalAlignment="Bottom" Click="Btn_OpenFile_Click" Background="LightSteelBlue"/>
+
                         <TreeView Name="CodeTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" 
                                  
                                   >
@@ -89,7 +89,7 @@
 
                         
                     </StackPanel>
-                    <Button Name="Btn_OpenFile" Content="Open File" Height="25" VerticalAlignment="Bottom" Click="Btn_OpenFile_Click"/>
+                    
                 </Grid> 
 
             </Grid>
