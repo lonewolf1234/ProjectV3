@@ -71,6 +71,7 @@ namespace VHDLGenerator.Views
             Btn_Component.IsEnabled = false;
             Btn_Signal.IsEnabled = false;
             Btn_Datapath.IsEnabled = true;
+            Btn_Copy_Component.IsEnabled = false;
 
             _mainViewModel = new MainViewModel();
             this.DataContext = _mainViewModel;
@@ -90,6 +91,8 @@ namespace VHDLGenerator.Views
                     Btn_Component.IsEnabled = true;                         //Disables the Datapath button and enables the other buttons
                     Btn_Signal.IsEnabled = false;
                     Btn_Datapath.IsEnabled = false;
+                    Btn_Copy_Component.IsEnabled = false;
+
                     GenerateDatapath(_dataPath);                            //DataPath Code Generation
 
                     LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
@@ -119,6 +122,7 @@ namespace VHDLGenerator.Views
                     LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
                     LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
                     Btn_Signal.IsEnabled = true;
+                    Btn_Copy_Component.IsEnabled = true;
                     #region Debug
                     //var newDP_ResultJSON = JsonConvert.SerializeObject(_dataPath, Formatting.Indented);
                     //File.WriteAllText(System.IO.Path.Combine(_newFolderPath, "DatapathJSON.txt"), newDP_ResultJSON);
@@ -127,6 +131,32 @@ namespace VHDLGenerator.Views
                 catch (Exception) { }
             }
         }
+
+        private void Btn_Copy_Component_Click(object sender, RoutedEventArgs e)
+        {
+            Window_CopyComp window_CopyComp = new Window_CopyComp(_dataPath);
+            ComponentModel CopyComp = new ComponentModel();
+
+            if (window_CopyComp.ShowDialog() == true)
+            {
+                try
+                {
+                    CopyComp = window_CopyComp.GetCompCopy;
+                    _id++;
+                    _dataPath.Components.Add(CopyComp);
+                    GenerateDatapath(_dataPath);                            //Regenerates Datapath Code File
+                    GenerateComponents(_dataPath);                          //Generates Component Code File
+
+
+                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
+
+
+                }
+                catch (Exception) { }
+            }
+        }
+
         private void Btn_Signal_Click(object sender, RoutedEventArgs e)
         {
             Window_Signal window_Signal = new Window_Signal(_dataPath);     //Creates a new Window instance upon button click and passes the _dataPath into it
@@ -191,11 +221,17 @@ namespace VHDLGenerator.Views
         {
             if (Data.Components != null)
             {
+                List<string> generated = new List<string>();
+
                 foreach (ComponentModel comp in Data.Components)                                            //Cycles through all components in data that was passed into the function
                 {
-                    ComponentTemplate CompTemplate = new ComponentTemplate(comp);                           //Creates an instance of the Component template using the comp passed into the function
-                    String CompText = CompTemplate.TransformText();                                         //Generates the code into a string using the Component Template file
-                    File.WriteAllText(System.IO.Path.Combine(_newFolderPath,comp.Name+ ".txt"),CompText);   //Combines the folder path and comp name to create the code file and writes the string to it
+                    if(!generated.Exists(x => x == comp.Name))
+                    {
+                        ComponentTemplate CompTemplate = new ComponentTemplate(comp);                           //Creates an instance of the Component template using the comp passed into the function
+                        String CompText = CompTemplate.TransformText();                                         //Generates the code into a string using the Component Template file
+                        File.WriteAllText(System.IO.Path.Combine(_newFolderPath, comp.Name + ".txt"), CompText);   //Combines the folder path and comp name to create the code file and writes the string to it
+                        generated.Add(comp.Name);
+                    }
                 }
             }
         }
@@ -359,6 +395,8 @@ namespace VHDLGenerator.Views
         #endregion
 
         #endregion
+
+       
     }
 
 

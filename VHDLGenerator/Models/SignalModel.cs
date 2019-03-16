@@ -20,9 +20,13 @@ namespace VHDLGenerator.Models
 
         public string Source_Comp { get; set; }
 
+        public string Source_Comp_ID { get; set; }
+
         public string Source_port { get; set; }
 
         public string Target_Comp { get; set; }
+
+        public string Target_Comp_ID { get; set; }
 
         public string Target_port { get; set; }
     }

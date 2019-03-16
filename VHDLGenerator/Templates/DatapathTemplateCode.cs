@@ -39,6 +39,23 @@ namespace VHDLGenerator.Templates
             get{ return SignalTranslation(this.Signals); }
         }
 
+        //public List<ComponentModel> UComponents { get { return uComponents() } }
+
+        private List<ComponentModel> uComponents(List<ComponentModel> comps)
+        {
+            List<ComponentModel> result = new List<ComponentModel>();
+
+            foreach(ComponentModel comp in comps)
+            {
+                if(!result.Exists(x => x.Name == comp.Name))
+                {
+                    result.Add(comp);
+                }
+            }
+
+            return result;
+        }
+
         private List<string> PortTranslation(List<PortModel> ports)
         {
             List<string> templist = new List<string>();
@@ -158,7 +175,7 @@ namespace VHDLGenerator.Templates
                                 #endregion
 
                                
-                                if (comp.Name == signal.Source_Comp && port.Name == signal.Source_port)
+                                if (comp.Name == signal.Source_Comp && port.Name == signal.Source_port && comp.ID == signal.Source_Comp_ID)
                                 {
                                     if (signal.Target_Comp == datapathname)
                                     {
@@ -171,7 +188,8 @@ namespace VHDLGenerator.Templates
                                         break;
                                     }
                                 }
-                                else if (comp.Name == signal.Target_Comp && port.Name == signal.Target_port)
+
+                                else if (comp.Name == signal.Target_Comp && port.Name == signal.Target_port && comp.ID == signal.Target_Comp_ID)
                                 {
                                     if (signal.Source_Comp == datapathname)
                                     {

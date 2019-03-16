@@ -29,6 +29,8 @@ namespace VHDLGenerator.ViewModels
         private DataPathModel _Datapath = new DataPathModel();
         private List<string> SPorts = new List<string>();
         private List<string> TPorts = new List<string>();
+        private string SourceID;
+        private string TargetID;
         private bool _GridEnable { get; set; }
         #endregion
 
@@ -113,9 +115,15 @@ namespace VHDLGenerator.ViewModels
             get { return Signal.Source_Comp; }
             set
             {
-                this.Signal.Source_Comp = value;
+                //this.Signal.Source_Comp = value.Substring(value.IndexOf(':'),value.Length-1);
+                this.Signal.Source_Comp = value.Substring(value.LastIndexOf(':') + 1);
 
-                this.SPorts = GetPortNames(this.Signal.Source_Comp, "source");
+                if (value != _Datapath.Name)
+                    this.Signal.Source_Comp_ID = value.ElementAt(3).ToString();
+                else
+                    this.SourceID = null;
+                
+                this.SPorts = GetPortNames(this.Signal.Source_Comp, "source", this.Signal.Source_Comp_ID);
                 OnPropertyChanged("SCompPorts");
                 OnPropertyChanged("GridEnable");
             }
@@ -126,8 +134,14 @@ namespace VHDLGenerator.ViewModels
             get { return Signal.Target_Comp; }
             set
             {
-                this.Signal.Target_Comp = value;
-                this.TPorts = GetPortNames(this.Signal.Target_Comp, "target");
+                this.Signal.Target_Comp = value.Substring(value.LastIndexOf(':') + 1);
+
+                if (value != _Datapath.Name)
+                    this.Signal.Target_Comp_ID = value.ElementAt(3).ToString();
+                else
+                    this.Signal.Target_Comp_ID = null;
+
+                this.TPorts = GetPortNames(this.Signal.Target_Comp, "target", this.Signal.Target_Comp_ID);
                 OnPropertyChanged("TCompPorts");
                 OnPropertyChanged("GridEnable");
             }
@@ -172,7 +186,7 @@ namespace VHDLGenerator.ViewModels
             {
                 foreach(ComponentModel comp in _Datapath.Components)
                 {
-                    names.Add(comp.Name);
+                    names.Add("cop" + comp.ID + ":" + comp.Name);
                 }
                 names.Add(_Datapath.Name);
             }
@@ -181,7 +195,7 @@ namespace VHDLGenerator.ViewModels
             return names;
         }
 
-        private List<string> GetPortNames(string selectedComponent, string filter)
+        private List<string> GetPortNames(string selectedComponent, string filter, string id)
         {
 
             List<string> names = new List<string>();
@@ -206,7 +220,7 @@ namespace VHDLGenerator.ViewModels
                 {
                     foreach (ComponentModel comp in _Datapath.Components)
                     {
-                        if (comp.Name == selectedComponent)
+                        if (comp.Name == selectedComponent && comp.ID == id)
                         {
                             foreach (PortModel port in comp.Ports)
                             {

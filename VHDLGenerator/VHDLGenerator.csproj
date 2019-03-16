@@ -90,6 +90,7 @@
     <Compile Include="ViewModels\Commands\DeleteCommand.cs" />
     <Compile Include="ViewModels\Commands\EditCommand.cs" />
     <Compile Include="ViewModels\ComponentViewModel.cs" />
+    <Compile Include="ViewModels\CopyCompViewModel.cs" />
     <Compile Include="ViewModels\DataPathViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SignalViewModel.cs" />
@@ -98,6 +99,9 @@
     </Compile>
     <Compile Include="Views\Window_Component.xaml.cs">
       <DependentUpon>Window_Component.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Window_CopyComp.xaml.cs">
+      <DependentUpon>Window_CopyComp.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Window_Datapath.xaml.cs">
       <DependentUpon>Window_Datapath.xaml</DependentUpon>
@@ -116,6 +120,10 @@
     <Page Include="Views\Window_Component.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Window_CopyComp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Window_Datapath.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -24,7 +24,7 @@ architecture <#= ArchName #> of <#=Name #> is
 <#
     if(Components.Count > 0)
     {
-        foreach(ComponentModel component in Components)
+        foreach(ComponentModel component in uComponents(Components))
         {
 #>
 component <#=                component.Name #>

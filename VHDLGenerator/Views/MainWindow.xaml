@@ -31,6 +31,15 @@
                     Background="LightSteelBlue"
                     Click="Btn_Component_Click"/>
 
+                <Button Name="Btn_Copy_Component"
+                    Content="Copy Component" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    Width="110" 
+                    Height="30"
+                    Background="LightSteelBlue"
+                    Click="Btn_Copy_Component_Click"/>
+
                 <Button Name="Btn_Signal"
                     Content="Create Signal" 
                     HorizontalAlignment="Right" 
@@ -39,6 +48,7 @@
                     Height="30" 
                     Background="LightSteelBlue"
                     Click="Btn_Signal_Click"/>
+                
             </StackPanel>
         </Grid>
 
