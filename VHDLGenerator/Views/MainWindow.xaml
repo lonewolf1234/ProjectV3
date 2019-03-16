@@ -91,8 +91,8 @@
                                  
                                   >
                             <TreeView.ItemTemplate >
-                                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                                    <TextBlock Text="{Binding Title}" />
+                                <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
+                                    <TextBlock Text="{Binding Title}"/>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
@@ -105,7 +105,10 @@
             </Grid>
 
             <Grid Grid.Column="1" Background="#eee">
-               
+                <Canvas x:Name="DrawingCanvas">
+                    
+                </Canvas>
+
 
             </Grid>
 

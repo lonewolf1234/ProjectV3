@@ -145,7 +145,7 @@ namespace DrawingDemo
                 //Height = newheight - 50,
                 //Width = newwidth - 150,
                 Height = 12 + 10,
-                Width = 100
+                Width = 200
             };
 
             Point point = new Point(275, 125);

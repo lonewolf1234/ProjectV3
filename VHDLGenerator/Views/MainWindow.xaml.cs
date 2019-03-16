@@ -97,6 +97,10 @@ namespace VHDLGenerator.Views
 
                     LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
                     LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
+
+                    Canvas canvas = new Canvas();
+                    canvas = this.DrawingCanvas;
+                    DrawDatapath(_dataPath, canvas);
                 }
                 catch (Exception) { }
             }
@@ -123,6 +127,9 @@ namespace VHDLGenerator.Views
                     LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
                     Btn_Signal.IsEnabled = true;
                     Btn_Copy_Component.IsEnabled = true;
+
+                    
+
                     #region Debug
                     //var newDP_ResultJSON = JsonConvert.SerializeObject(_dataPath, Formatting.Indented);
                     //File.WriteAllText(System.IO.Path.Combine(_newFolderPath, "DatapathJSON.txt"), newDP_ResultJSON);
@@ -396,7 +403,44 @@ namespace VHDLGenerator.Views
 
         #endregion
 
-       
+        public void DrawDatapath(DataPathModel _data, Canvas _canvas)
+        {
+            Rectangle Datapath = new Rectangle()
+            {
+                Stroke = Brushes.PaleVioletRed,
+                StrokeThickness = 2,
+                Width = _canvas.ActualWidth - 60,
+                Height = _canvas.ActualHeight - 60
+            };
+
+            Point startpoint = new Point(30, 30);
+            Canvas.SetTop(Datapath, startpoint.Y);
+            Canvas.SetLeft(Datapath, startpoint.X);
+            _canvas.Children.Add(Datapath);
+
+            Label DatapathName = new Label()
+            {
+                Content = _data.Name,
+                FontSize = 20
+            };
+            Point NamePoint = new Point( (Datapath.Width / 2) - 50 ,2);
+            Canvas.SetTop(DatapathName, NamePoint.Y);
+            Canvas.SetLeft(DatapathName, NamePoint.X);
+            _canvas.Children.Add(DatapathName);
+
+            foreach(PortModel port in _data.Ports)
+            {
+                if(port.Direction == "in")
+                {
+
+                }
+                else
+                {
+
+                }
+            }
+        }
+
     }
 
 

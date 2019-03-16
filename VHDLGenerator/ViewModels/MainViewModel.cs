@@ -22,58 +22,62 @@ namespace VHDLGenerator.ViewModels
         }
         #endregion
 
-    //    private DataPathModel Data = new DataPathModel();
-    //    private List<string> _Title = new List<string>();
-    //    private TreeViewData _treeViewData = new TreeViewData();
+        #region commented old code
+        //    private DataPathModel Data = new DataPathModel();
+        //    private List<string> _Title = new List<string>();
+        //    private TreeViewData _treeViewData = new TreeViewData();
 
-    //    //public DataPathModel TreeviewData { get; set; }
-    //    public List<string> Title { get { return this._Title; } }
+        //    //public DataPathModel TreeviewData { get; set; }
+        //    public List<string> Title { get { return this._Title; } }
 
-    //    private DataPathModel _MainWinData { get; set; }
-    //    public DataPathModel MainWinData { get { return _MainWinData; } set { this._MainWinData = value; OnPropertyChanged("TreeviewData"); } }
+        //    private DataPathModel _MainWinData { get; set; }
+        //    public DataPathModel MainWinData { get { return _MainWinData; } set { this._MainWinData = value; OnPropertyChanged("TreeviewData"); } }
 
-    //    public TreeViewData TreeviewData
-    //    {
-    //        get { return _treeViewData; }
-    //        set
-    //        {
-    //            this._treeViewData = value;
+        //    public TreeViewData TreeviewData
+        //    {
+        //        get { return _treeViewData; }
+        //        set
+        //        {
+        //            this._treeViewData = value;
 
-    //            if(MainWinData.Name != null)
-    //            {
-    //                _treeViewData.Title = Data.Name;
-    //            }
+        //            if(MainWinData.Name != null)
+        //            {
+        //                _treeViewData.Title = Data.Name;
+        //            }
 
-    //            if(MainWinData.Ports != null)
-    //            {
-    //                TreeViewData tv = new TreeViewData();
-    //                tv.Title = "Ports";
-    //                _treeViewData.Items.Add(tv);
-    //            }
+        //            if(MainWinData.Ports != null)
+        //            {
+        //                TreeViewData tv = new TreeViewData();
+        //                tv.Title = "Ports";
+        //                _treeViewData.Items.Add(tv);
+        //            }
 
-    //            if(MainWinData.Signals != null)
-    //            {
-    //                TreeViewData tv = new TreeViewData();
-    //                tv.Title = "Signal";
-    //                _treeViewData.Items.Add(tv);
-    //            }
-    //        }
-    //    }
+        //            if(MainWinData.Signals != null)
+        //            {
+        //                TreeViewData tv = new TreeViewData();
+        //                tv.Title = "Signal";
+        //                _treeViewData.Items.Add(tv);
+        //            }
+        //        }
+        //    }
 
-    //    public MainViewModel(DataPathModel data)
-    //    {
-    //        this.Data = data;
-    //    }
-    //}
+        //    public MainViewModel(DataPathModel data)
+        //    {
+        //        this.Data = data;
+        //    }
+        //}
 
-    //public class TreeViewData
-    //{
-    //    public TreeViewData()
-    //    {
-    //        this.Items = new List<TreeViewData>();
-    //    }
-    //    public string Title { get; set; }
-    //    public List<TreeViewData> Items { get; set; }
+        //public class TreeViewData
+        //{
+        //    public TreeViewData()
+        //    {
+        //        this.Items = new List<TreeViewData>();
+        //    }
+        //    public string Title { get; set; }
+        //    public List<TreeViewData> Items { get; set; }
+        #endregion
+
+
     }
 
 }
