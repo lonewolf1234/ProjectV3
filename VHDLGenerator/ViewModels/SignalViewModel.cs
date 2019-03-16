@@ -168,13 +168,13 @@ namespace VHDLGenerator.ViewModels
         public string SCompPortName
         {
             get { return Signal.Source_port; }
-            set { this.Signal.Source_port = value; OnPropertyChanged("FinishEnable"); }
+            set { this.Signal.Source_port = value; this.Signal.Name = null; OnPropertyChanged("FinishEnable"); }
         }
         //for selected item in traget cat - port
         public string TCompPortName
         {
             get { return Signal.Target_port; }
-            set { this.Signal.Target_port = value; OnPropertyChanged("FinishEnable"); }
+            set { this.Signal.Target_port = value; this.Signal.Name = null; OnPropertyChanged("FinishEnable"); }
         }
         #endregion
 
