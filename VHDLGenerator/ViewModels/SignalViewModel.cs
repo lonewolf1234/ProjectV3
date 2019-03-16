@@ -29,8 +29,8 @@ namespace VHDLGenerator.ViewModels
         private DataPathModel _Datapath = new DataPathModel();
         private List<string> SPorts = new List<string>();
         private List<string> TPorts = new List<string>();
-        private string SourceID;
-        private string TargetID;
+        //private string SourceID;
+        //private string TargetID;
         private bool _GridEnable { get; set; }
         #endregion
 
@@ -121,7 +121,7 @@ namespace VHDLGenerator.ViewModels
                 if (value != _Datapath.Name)
                     this.Signal.Source_Comp_ID = value.ElementAt(3).ToString();
                 else
-                    this.SourceID = null;
+                    this.Signal.Source_Comp_ID = null;
                 
                 this.SPorts = GetPortNames(this.Signal.Source_Comp, "source", this.Signal.Source_Comp_ID);
                 OnPropertyChanged("SCompPorts");
@@ -452,17 +452,23 @@ namespace VHDLGenerator.ViewModels
                 foreach (SignalModel sig in data.Signals)
                 {
                     bool name = false;
+                    bool SCompID = false;
                     bool SComp = false;
                     bool SCompPort = false;
+                    bool TCompID = false;
                     bool TComp = false;
                     bool TCompPort = false;
 
+                    if (signal.Source_Comp_ID == sig.Source_Comp_ID)
+                        SCompID = true;
                     if (signal.Name == sig.Name)
                         name = true;
                     if (signal.Source_Comp == sig.Source_Comp)
                         SComp = true;
                     if (signal.Source_port == sig.Source_port)
                         SCompPort = true;
+                    if (signal.Target_Comp_ID == sig.Target_Comp_ID)
+                        TCompID = true;
                     if (signal.Target_Comp == sig.Target_Comp)
                         TComp = true;
                     if (signal.Target_port == sig.Target_port)
@@ -470,14 +476,14 @@ namespace VHDLGenerator.ViewModels
 
                     if (signal.Name == null && sig.Name == null)
                     {
-                        if (SComp && SCompPort && TComp && TCompPort)
+                        if (SCompID && SComp && SCompPort && TCompID && TComp && TCompPort )
                         {
                             result = true;
                         }
                         else
                             result = false;
                     }
-                    else if (name || (SComp && SCompPort && TComp && TCompPort))
+                    else if (name || (SCompID && SComp && SCompPort && TCompID && TComp && TCompPort))
                     {
                         result = true;
                     }
