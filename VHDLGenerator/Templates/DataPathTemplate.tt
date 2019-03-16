@@ -29,7 +29,7 @@ architecture <#= ArchName #> of <#=Name #> is
 #>
 component <#=                component.Name #>
 <#
-            if(component.Ports != null)
+            if(component.Ports.Count != 0)
             {
 #>
   Port(<#
@@ -70,7 +70,7 @@ begin
 #>
 cop<#=component.ID #> : <#=component.Name #>
 <#
-                if(component.Ports != null)
+                if(component.Ports.Count != 0)
                 {
 #>
  port map(<# 
