@@ -7,19 +7,20 @@ using System.Windows;
 
 namespace VHDLGenerator.Models
 {
-    class PointData
+    public class PointData
     {
 
-        public PointData(string componentname,string portname, Point point)
+        public PointData(string componentID,string componentname,string portname, Point point)
         {
+            this.ComponentID = componentID;
             this.ComponentName = componentname;
             this.PortName = portname;
             this.Point = point;
         }
-
-        string ComponentName { get; set; }
-        string PortName { get; set; }
-        Point Point { get; set; }
+        public string ComponentID { get; set; }
+        public string ComponentName { get; set; }
+        public string PortName { get; set; }
+        public Point Point { get; set; }
     }
 
     

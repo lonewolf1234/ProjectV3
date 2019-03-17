@@ -51,6 +51,8 @@ namespace VHDLGenerator.Views
         /// </summary>
         private int _id;
 
+        private List<PointData> DataPoints;
+
         //private Point startPoint;
         //private Rectangle rect;
         //private bool _loaded;
@@ -72,6 +74,7 @@ namespace VHDLGenerator.Views
             Btn_Signal.IsEnabled = false;
             Btn_Datapath.IsEnabled = true;
             Btn_Copy_Component.IsEnabled = false;
+            DataPoints = new List<PointData>();
 
             _mainViewModel = new MainViewModel();
             this.DataContext = _mainViewModel;
@@ -81,7 +84,7 @@ namespace VHDLGenerator.Views
         private void Btn_Datapath_Click(object sender, RoutedEventArgs e)
         {
             Window_Datapath window_Datapath = new Window_Datapath();
-
+            List<PointData> datapoints = new List<PointData>();
             if (window_Datapath.ShowDialog() == true)
             {
                 try
@@ -100,7 +103,12 @@ namespace VHDLGenerator.Views
 
                     Canvas canvas = new Canvas();
                     canvas = this.DrawingCanvas;
-                    DrawDatapath(_dataPath, canvas);
+
+                    datapoints = DrawDatapath(_dataPath, canvas);
+                    foreach(PointData data in datapoints)
+                    {
+                        DataPoints.Add(data);
+                    }
                 }
                 catch (Exception) { }
             }
@@ -109,6 +117,7 @@ namespace VHDLGenerator.Views
         {
             Window_Component window_Component = new Window_Component(_dataPath);     //Creates new instance of component window 
             ComponentModel model = new ComponentModel();
+            List<PointData> datapoints = new List<PointData>();
 
             if (window_Component.ShowDialog() == true)                      //Waits till the window is closed
             {
@@ -130,7 +139,13 @@ namespace VHDLGenerator.Views
 
                     Canvas canvas = new Canvas();
                     canvas = this.DrawingCanvas;
-                    DrawComponents(_dataPath, canvas);
+                    //DrawComponents(_dataPath, canvas);
+
+                    datapoints = DrawComponents(_dataPath, canvas);
+                    foreach (PointData data in datapoints)
+                    {
+                        DataPoints.Add(data);
+                    }
 
                     #region Debug
                     //var newDP_ResultJSON = JsonConvert.SerializeObject(_dataPath, Formatting.Indented);
@@ -145,6 +160,7 @@ namespace VHDLGenerator.Views
         {
             Window_CopyComp window_CopyComp = new Window_CopyComp(_dataPath);
             ComponentModel CopyComp = new ComponentModel();
+            List<PointData> datapoints = new List<PointData>();
 
             if (window_CopyComp.ShowDialog() == true)
             {
@@ -160,6 +176,14 @@ namespace VHDLGenerator.Views
                     LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
                     LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
 
+                    Canvas canvas = new Canvas();
+                    canvas = this.DrawingCanvas;
+
+                    datapoints = DrawComponents(_dataPath, canvas);
+                    foreach (PointData data in datapoints)
+                    {
+                        DataPoints.Add(data);
+                    }
 
                 }
                 catch (Exception) { }
@@ -180,6 +204,10 @@ namespace VHDLGenerator.Views
 
                     LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
                     LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
+
+                    Canvas canvas = new Canvas();
+                    canvas = this.DrawingCanvas;
+                    DrawSignals(_dataPath,canvas, DataPoints);
 
                     #region Debug
                     //System.IO.File.WriteAllText(System.IO.Path.Combine(DebugPath, "SignalJSON.txt"), window_Signal.GetSignalJSON);
@@ -405,7 +433,7 @@ namespace VHDLGenerator.Views
 
         #endregion
 
-        public void DrawDatapath(DataPathModel _data, Canvas _canvas)
+        public List<PointData> DrawDatapath(DataPathModel _data, Canvas _canvas)
         {
             List<PointData> pointDatas = new List<PointData>();
 
@@ -424,16 +452,17 @@ namespace VHDLGenerator.Views
             _canvas.Children.Add(Datapath);
            
 
-            Label DatapathName = new Label()
+            TextBlock DatapathName = new TextBlock()
             {
-                Content = _data.Name,
+                Text = _data.Name,
                 FontSize = 20
             };
             Point NamePoint = new Point( (Datapath.Width / 2) - 50 ,2);
             Canvas.SetTop(DatapathName, NamePoint.Y);
             Canvas.SetLeft(DatapathName, NamePoint.X);
             _canvas.Children.Add(DatapathName);
-            #region
+
+            #region addtion of port labels
             int counterin = 1;
             int counterout = 1;
 
@@ -441,17 +470,18 @@ namespace VHDLGenerator.Views
             {
                 if(port.Direction == "in")
                 {
-                    Point PortPoint = new Point(0, startpoint.Y * counterin);
-                    Label PortName = new Label()
+                    TextBlock PortName = new TextBlock()
                     {
-                        Content = port.Name
+                        Text = port.Name
                     };
+                    Point PortPoint = new Point(startpoint.X - (PortName.Text.Length * 5) - 10, (startpoint.Y * counterin) + 20);
+                    
                     Canvas.SetTop(PortName, PortPoint.Y);
                     Canvas.SetLeft(PortName, PortPoint.X);
 
-                    PortPoint.X = 90;
+                    PortPoint.X = startpoint.X;
 
-                    PointData pointData = new PointData(_data.Name, port.Name, PortPoint);
+                    PointData pointData = new PointData(null,_data.Name, port.Name, PortPoint);
                     pointDatas.Add(pointData);
 
                     _canvas.Children.Add(PortName);
@@ -459,7 +489,7 @@ namespace VHDLGenerator.Views
                 }
                 else
                 {
-                    Point PortPoint = new Point(startpoint.X + Datapath.Width , startpoint.Y * counterout);
+                    Point PortPoint = new Point(startpoint.X + Datapath.Width , (startpoint.Y * counterout) + 20);
                     Label PortName = new Label()
                     {
                         Content = port.Name
@@ -467,18 +497,21 @@ namespace VHDLGenerator.Views
                     Canvas.SetTop(PortName, PortPoint.Y);
                     Canvas.SetLeft(PortName, PortPoint.X);
 
-                    PointData pointData = new PointData(_data.Name, port.Name, PortPoint);
+                    PointData pointData = new PointData(null,_data.Name, port.Name, PortPoint);
                     pointDatas.Add(pointData);
 
                     _canvas.Children.Add(PortName);
                     counterout++;
                 }
             }
-            #endregion
+            #endregion 
+            return pointDatas;
         }
 
-        public void DrawComponents(DataPathModel _data, Canvas _canvas)
+        public List<PointData> DrawComponents(DataPathModel _data, Canvas _canvas)
         {
+            List<PointData> pointDatas = new List<PointData>();
+
             Point[] StartPoints = new Point[6];
             Point StartPoint = new Point(90,30);
 
@@ -486,7 +519,7 @@ namespace VHDLGenerator.Views
             for(int i = 1; i<6;i++)
             {
                 if(i < 3)
-                    StartPoints[i] = new Point(StartPoints[i - 1].X + 350, StartPoints[i - 1].Y);
+                    StartPoints[i] = new Point(StartPoints[i - 1].X + 380, StartPoints[i - 1].Y);
                 else
                     StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 300);
             }
@@ -498,8 +531,8 @@ namespace VHDLGenerator.Views
                 {
                     Stroke = Brushes.Blue,
                     StrokeThickness = 2,
-                    Width = 250,
-                    Height = 200
+                    Width = 220,
+                    Height = 150
                 };
 
 
@@ -517,13 +550,79 @@ namespace VHDLGenerator.Views
                 Canvas.SetTop(ComponentName, NamePoint.Y);
                 Canvas.SetLeft(ComponentName, NamePoint.X);
                 _canvas.Children.Add(ComponentName);
+
+                #region addtion of port labels
+                int counterin = 1;
+                int counterout = 1;
+
+                foreach (PortModel port in _data.Components[i].Ports)
+                {
+                    if (port.Direction == "in")
+                    {
+                        TextBlock PortName = new TextBlock()
+                        {
+                            Text = port.Name
+                        };
+
+                        Point PortPoint = new Point(StartPoints[i].X + 5, StartPoints[i].Y + (counterin * 20));
+                        
+                        Canvas.SetTop(PortName, PortPoint.Y);
+                        Canvas.SetLeft(PortName, PortPoint.X);
+
+                        PortPoint.X = StartPoints[i].X;
+                        PointData pointData = new PointData(_data.Components[i].ID, _data.Components[i].Name, port.Name, PortPoint);
+                        pointDatas.Add(pointData);
+
+                        _canvas.Children.Add(PortName);
+                        counterin++;
+                    }
+                    else
+                    {
+                        TextBlock PortName = new TextBlock()
+                        {
+                            Text = port.Name
+                        };
+                        Point PortPoint = new Point(StartPoints[i].X + Component.Width - (PortName.Text.Length * 5) - 10 , StartPoints[i].Y + (counterout * 20));
+                       
+                        Canvas.SetTop(PortName, PortPoint.Y);
+                        Canvas.SetLeft(PortName, PortPoint.X);
+
+                        PortPoint.X = StartPoints[i].X + Component.Width; 
+                        PointData pointData = new PointData(_data.Components[i].ID,_data.Components[i].Name, port.Name, PortPoint);
+                        pointDatas.Add(pointData);
+
+                        _canvas.Children.Add(PortName);
+                        counterout++;
+                    }
+                }
+                #endregion
             }
-        
+            return pointDatas;
+
         }
 
-        public void DrawSignals(DataPathModel _data, Canvas _canvas)
+        public void DrawSignals(DataPathModel _data, Canvas _canvas , List<PointData> ConnectionPoints)
         {
+            foreach(SignalModel signal in _data.Signals)
+            {
+                Point ConnectionStart = new Point();
+                Point ConnectionEnd = new Point();
+                
+                ConnectionStart = ConnectionPoints.Find(x => x.ComponentID == signal.Source_Comp_ID && x.PortName == signal.Source_port).Point;
+                ConnectionEnd   = ConnectionPoints.Find(x => x.ComponentID == signal.Target_Comp_ID && x.PortName == signal.Target_port).Point;
 
+                Line line = new Line()
+                {
+                    X1 = ConnectionStart.X,
+                    Y1 = ConnectionStart.Y,
+                    X2 = ConnectionEnd.X,
+                    Y2 = ConnectionEnd.Y,
+                    Stroke = Brushes.DarkMagenta,
+                    StrokeThickness = 1
+                };
+
+                _canvas.Children.Add(line);
+            }
         }
 
 

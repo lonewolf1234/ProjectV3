@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:VHDLGenerator.Views"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="Add Copy of Component" Height="250" Width="400">
     <Grid>
         <Grid.RowDefinitions>
