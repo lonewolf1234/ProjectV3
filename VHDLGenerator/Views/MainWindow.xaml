@@ -112,7 +112,7 @@
 
                 <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
-                    <Canvas x:Name="DrawingCanvas" Height="800" Width="1400" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Canvas x:Name="DrawingCanvas" Height="780" Width="1320"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
                     </Canvas>
 

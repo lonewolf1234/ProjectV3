@@ -433,7 +433,7 @@ namespace VHDLGenerator.Views
             Canvas.SetTop(DatapathName, NamePoint.Y);
             Canvas.SetLeft(DatapathName, NamePoint.X);
             _canvas.Children.Add(DatapathName);
-
+            #region
             int counterin = 1;
             int counterout = 1;
 
@@ -474,6 +474,7 @@ namespace VHDLGenerator.Views
                     counterout++;
                 }
             }
+            #endregion
         }
 
         public void DrawComponents(DataPathModel _data, Canvas _canvas)
@@ -481,13 +482,13 @@ namespace VHDLGenerator.Views
             Point[] StartPoints = new Point[6];
             Point StartPoint = new Point(90,30);
 
-            StartPoints[0] = new Point(StartPoint.X + 150, StartPoint.Y + 100);
+            StartPoints[0] = new Point(StartPoint.X + 100, StartPoint.Y + 100);
             for(int i = 1; i<6;i++)
             {
                 if(i < 3)
-                    StartPoints[i] = new Point(StartPoints[i - 1].X + 250, StartPoints[i - 1].Y);
+                    StartPoints[i] = new Point(StartPoints[i - 1].X + 350, StartPoints[i - 1].Y);
                 else
-                    StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 200);
+                    StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 300);
             }
 
             for(int i = 0; i < _data.Components.Count;i++)
@@ -495,7 +496,7 @@ namespace VHDLGenerator.Views
                 
                 Rectangle Component = new Rectangle()
                 {
-                    Stroke = Brushes.PaleVioletRed,
+                    Stroke = Brushes.Blue,
                     StrokeThickness = 2,
                     Width = 250,
                     Height = 200
@@ -512,7 +513,7 @@ namespace VHDLGenerator.Views
                     Content = _data.Components[i].Name,
                     FontSize = 20
                 };
-                Point NamePoint = new Point(((Component.Width / 2) + StartPoints[i].X) - 50, StartPoints[i].Y - 50);
+                Point NamePoint = new Point(((Component.Width / 2) + StartPoints[i].X) - 50, StartPoints[i].Y - 30);
                 Canvas.SetTop(ComponentName, NamePoint.Y);
                 Canvas.SetLeft(ComponentName, NamePoint.X);
                 _canvas.Children.Add(ComponentName);
