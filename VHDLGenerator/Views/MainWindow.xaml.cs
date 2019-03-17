@@ -128,7 +128,9 @@ namespace VHDLGenerator.Views
                     Btn_Signal.IsEnabled = true;
                     Btn_Copy_Component.IsEnabled = true;
 
-                    
+                    Canvas canvas = new Canvas();
+                    canvas = this.DrawingCanvas;
+                    DrawComponents(_dataPath, canvas);
 
                     #region Debug
                     //var newDP_ResultJSON = JsonConvert.SerializeObject(_dataPath, Formatting.Indented);
@@ -405,18 +407,22 @@ namespace VHDLGenerator.Views
 
         public void DrawDatapath(DataPathModel _data, Canvas _canvas)
         {
+            List<PointData> pointDatas = new List<PointData>();
+
+            Point startpoint = new Point(90, 30);
             Rectangle Datapath = new Rectangle()
             {
                 Stroke = Brushes.PaleVioletRed,
                 StrokeThickness = 2,
-                Width = _canvas.ActualWidth - 60,
-                Height = _canvas.ActualHeight - 60
+                Width = _canvas.ActualWidth - startpoint.X * 2,
+                Height = _canvas.ActualHeight - startpoint.Y * 2
             };
 
-            Point startpoint = new Point(30, 30);
+           
             Canvas.SetTop(Datapath, startpoint.Y);
             Canvas.SetLeft(Datapath, startpoint.X);
             _canvas.Children.Add(Datapath);
+           
 
             Label DatapathName = new Label()
             {
@@ -428,19 +434,112 @@ namespace VHDLGenerator.Views
             Canvas.SetLeft(DatapathName, NamePoint.X);
             _canvas.Children.Add(DatapathName);
 
+            int counterin = 1;
+            int counterout = 1;
+
             foreach(PortModel port in _data.Ports)
             {
                 if(port.Direction == "in")
                 {
+                    Point PortPoint = new Point(0, startpoint.Y * counterin);
+                    Label PortName = new Label()
+                    {
+                        Content = port.Name
+                    };
+                    Canvas.SetTop(PortName, PortPoint.Y);
+                    Canvas.SetLeft(PortName, PortPoint.X);
 
+                    PortPoint.X = 90;
+
+                    PointData pointData = new PointData(_data.Name, port.Name, PortPoint);
+                    pointDatas.Add(pointData);
+
+                    _canvas.Children.Add(PortName);
+                    counterin++;
                 }
                 else
                 {
+                    Point PortPoint = new Point(startpoint.X + Datapath.Width , startpoint.Y * counterout);
+                    Label PortName = new Label()
+                    {
+                        Content = port.Name
+                    };
+                    Canvas.SetTop(PortName, PortPoint.Y);
+                    Canvas.SetLeft(PortName, PortPoint.X);
 
+                    PointData pointData = new PointData(_data.Name, port.Name, PortPoint);
+                    pointDatas.Add(pointData);
+
+                    _canvas.Children.Add(PortName);
+                    counterout++;
                 }
             }
         }
 
+        public void DrawComponents(DataPathModel _data, Canvas _canvas)
+        {
+            Point[] StartPoints = new Point[6];
+            Point StartPoint = new Point(90,30);
+
+            StartPoints[0] = new Point(StartPoint.X + 150, StartPoint.Y + 100);
+            for(int i = 1; i<6;i++)
+            {
+                if(i < 3)
+                    StartPoints[i] = new Point(StartPoints[i - 1].X + 250, StartPoints[i - 1].Y);
+                else
+                    StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 200);
+            }
+
+            for(int i = 0; i < _data.Components.Count;i++)
+            {
+                
+                Rectangle Component = new Rectangle()
+                {
+                    Stroke = Brushes.PaleVioletRed,
+                    StrokeThickness = 2,
+                    Width = 250,
+                    Height = 200
+                };
+
+
+                Canvas.SetTop(Component, StartPoints[i].Y);
+                Canvas.SetLeft(Component, StartPoints[i].X);
+                _canvas.Children.Add(Component);
+
+
+                Label ComponentName = new Label()
+                {
+                    Content = _data.Components[i].Name,
+                    FontSize = 20
+                };
+                Point NamePoint = new Point(((Component.Width / 2) + StartPoints[i].X) - 50, StartPoints[i].Y - 50);
+                Canvas.SetTop(ComponentName, NamePoint.Y);
+                Canvas.SetLeft(ComponentName, NamePoint.X);
+                _canvas.Children.Add(ComponentName);
+            }
+        
+        }
+
+        public void DrawSignals(DataPathModel _data, Canvas _canvas)
+        {
+
+        }
+
+
+
+        //private void UpdateViewBox(int newvalue)
+        //{
+        //    if((ZoomViewBox.Width >= 0) && ZoomViewBox.Height >= 0)
+        //    {
+        //        ZoomViewBox.Width += newvalue;
+        //        ZoomViewBox.Height += newvalue;
+        //    }
+        //}
+
+        //private void ZoomViewBox_MouseWheel(object sender, MouseWheelEventArgs e)
+        //{
+        //    UpdateViewBox((e.Delta > 0) ? 5 : -5);
+        //}
     }
 
 

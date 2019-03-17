@@ -74,6 +74,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\DrawingFile.cs" />
+    <Compile Include="Models\PointData.cs" />
     <Compile Include="Models\TreeViewData.cs" />
     <Compile Include="Templates\ComponentTemplate.cs">
       <AutoGen>True</AutoGen>
