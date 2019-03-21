@@ -31,9 +31,11 @@ namespace VHDLGenerator.Views
         /// <summary>
         /// Main Data Produced by the windows
         /// </summary>
-        /// 
         private DataPathModel _dataPath;
 
+        /// <summary>
+        /// Main Window ViewModel Instance
+        /// </summary>
         private MainViewModel _mainViewModel;
 
         /// <summary>
@@ -51,15 +53,14 @@ namespace VHDLGenerator.Views
         /// </summary>
         private int _id;
 
+        /// <summary>
+        /// List of all the point data for the position of the ports in the Datapath Block Diagram
+        /// </summary>
         private List<PointData> DataPoints;
 
-        //private Point startPoint;
-        //private Rectangle rect;
-        //private bool _loaded;
+        
         #endregion
-
-        #region Main Code
-
+        
         #region Window Methods
 
         public MainWindow()
@@ -431,100 +432,117 @@ namespace VHDLGenerator.Views
         }
         #endregion
 
-        #endregion
-
+       
+        /// <summary>
+        /// Draws the Datapath Block along with it's ports on a Canvas
+        /// </summary>
+        /// <param name="_data"></param>
+        /// <param name="_canvas"></param>
+        /// <returns></returns>
         public List<PointData> DrawDatapath(DataPathModel _data, Canvas _canvas)
         {
             List<PointData> pointDatas = new List<PointData>();
 
-            Point startpoint = new Point(90, 30);
-            Rectangle Datapath = new Rectangle()
+            #region Datapath Rectangle
+            Point startpoint = new Point(90, 30);                               //Starting point to draw rectangle
+            Rectangle Datapath = new Rectangle()                                //Creation of rectangle object
             {
                 Stroke = Brushes.PaleVioletRed,
                 StrokeThickness = 2,
-                Width = _canvas.ActualWidth - startpoint.X * 2,
+                Width = _canvas.ActualWidth - startpoint.X * 2,                 //specifices the with based on the canvas width 
                 Height = _canvas.ActualHeight - startpoint.Y * 2
             };
-
            
-            Canvas.SetTop(Datapath, startpoint.Y);
+            Canvas.SetTop(Datapath, startpoint.Y);                              //Set the points for the rectangle to be drawn
             Canvas.SetLeft(Datapath, startpoint.X);
-            _canvas.Children.Add(Datapath);
-           
+            _canvas.Children.Add(Datapath);                                     //Adds rectangle to the canvas
+            #endregion
 
+            #region Datapath Title
             TextBlock DatapathName = new TextBlock()
             {
                 Text = _data.Name,
                 FontSize = 20
             };
-            Point NamePoint = new Point( (Datapath.Width / 2) - 50 ,2);
+            Point NamePoint = new Point( (Datapath.Width / 2) - 50 ,2);         //Tries to find the midpoint to place the title
             Canvas.SetTop(DatapathName, NamePoint.Y);
             Canvas.SetLeft(DatapathName, NamePoint.X);
-            _canvas.Children.Add(DatapathName);
+            _canvas.Children.Add(DatapathName);                                 //Adds title to the canvas
+            #endregion
 
-            #region addtion of port labels
-            int counterin = 1;
-            int counterout = 1;
+            #region Port TextBlocks
+            int counterin = 1;                                          //Input Multiplier for placement
+            int counterout = 1;                                         //Output Multiplier for placement
 
             foreach(PortModel port in _data.Ports)
             {
-                if(port.Direction == "in")
+                if(port.Direction == "in")                              //Placing of Datapath Inputs Ports
                 {
-                    TextBlock PortName = new TextBlock()
+                    TextBlock PortName = new TextBlock()                //Creates a label using port name
                     {
                         Text = port.Name
                     };
-                    Point PortPoint = new Point(startpoint.X - (PortName.Text.Length * 5) - 10, (startpoint.Y * counterin) + 20);
+                                                                        //Attempts to place Port name on the left edge of the Datapath Block Diagram
+                    Point PortPoint = new Point(startpoint.X - (PortName.Text.Length * 5) - 10, (startpoint.Y * counterin) + 20); 
                     
                     Canvas.SetTop(PortName, PortPoint.Y);
                     Canvas.SetLeft(PortName, PortPoint.X);
 
-                    PortPoint.X = startpoint.X;
+                    PortPoint.X = startpoint.X;                         //Reassigns x value to that of the left edge of datapath of signal connection
+                    PointData pointData = new PointData(null,_data.Name, port.Name, PortPoint); 
+                    pointDatas.Add(pointData);                          //Adds the point for connection to the list
 
-                    PointData pointData = new PointData(null,_data.Name, port.Name, PortPoint);
-                    pointDatas.Add(pointData);
-
-                    _canvas.Children.Add(PortName);
-                    counterin++;
+                    _canvas.Children.Add(PortName);                     //Adds the port to the Canvas
+                    counterin++;                                        //incerments multiplier
                 }
-                else
+                else                                                    //Placing of Datapath Output Ports
                 {
                     Point PortPoint = new Point(startpoint.X + Datapath.Width , (startpoint.Y * counterout) + 20);
-                    Label PortName = new Label()
+                    TextBlock PortName = new TextBlock()
                     {
-                        Content = port.Name
+                        Text = port.Name
                     };
                     Canvas.SetTop(PortName, PortPoint.Y);
                     Canvas.SetLeft(PortName, PortPoint.X);
 
-                    PointData pointData = new PointData(null,_data.Name, port.Name, PortPoint);
+                    PointData pointData = new PointData(null, _data.Name, port.Name, PortPoint);
                     pointDatas.Add(pointData);
 
                     _canvas.Children.Add(PortName);
-                    counterout++;
+                    counterout++;                                       //increments multiplier
                 }
             }
             #endregion 
+
             return pointDatas;
         }
 
+
+        /// <summary>
+        /// Draws a max of 6 Components Blocks along with their ports on a Canvas
+        /// </summary>
+        /// <param name="_data"></param>
+        /// <param name="_canvas"></param>
+        /// <returns></returns>
         public List<PointData> DrawComponents(DataPathModel _data, Canvas _canvas)
         {
             List<PointData> pointDatas = new List<PointData>();
 
-            Point[] StartPoints = new Point[6];
-            Point StartPoint = new Point(90,30);
-
-            StartPoints[0] = new Point(StartPoint.X + 100, StartPoint.Y + 100);
+            #region Start Point of 6 Components
+            Point[] StartPoints = new Point[6];                                     //Creates an array of 6 points to place each component block
+            Point StartPoint = new Point(90,30);                                    //Start point of Datapath Diagram
+            StartPoints[0] = new Point(StartPoint.X + 100, StartPoint.Y + 100);     //Diagonal shift releative to start point 
             for(int i = 1; i<6;i++)
             {
                 if(i < 3)
-                    StartPoints[i] = new Point(StartPoints[i - 1].X + 380, StartPoints[i - 1].Y);
+                    StartPoints[i] = new Point(StartPoints[i - 1].X + 380, StartPoints[i - 1].Y);   //Top 3 components has a space of 380(to the right) from each start point
                 else
-                    StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 300);
+                    StartPoints[i] = new Point(StartPoints[i - 3].X , StartPoints[i - 3].Y + 300);  //Bottom 3 components has a space of 300(down) relative to the component above it
             }
+            #endregion
 
-            for(int i = 0; i < _data.Components.Count;i++)
+
+            for (int i = 0; i < _data.Components.Count;i++)
             {
                 
                 Rectangle Component = new Rectangle()
@@ -534,7 +552,6 @@ namespace VHDLGenerator.Views
                     Width = 220,
                     Height = 150
                 };
-
 
                 Canvas.SetTop(Component, StartPoints[i].Y);
                 Canvas.SetLeft(Component, StartPoints[i].X);
@@ -598,9 +615,14 @@ namespace VHDLGenerator.Views
                 #endregion
             }
             return pointDatas;
-
         }
 
+        /// <summary>
+        /// Makes a connection using Signal data and the Port points
+        /// </summary>
+        /// <param name="_data"></param>
+        /// <param name="_canvas"></param>
+        /// <param name="ConnectionPoints"></param>
         public void DrawSignals(DataPathModel _data, Canvas _canvas , List<PointData> ConnectionPoints)
         {
             foreach(SignalModel signal in _data.Signals)
@@ -624,22 +646,6 @@ namespace VHDLGenerator.Views
                 _canvas.Children.Add(line);
             }
         }
-
-
-
-        //private void UpdateViewBox(int newvalue)
-        //{
-        //    if((ZoomViewBox.Width >= 0) && ZoomViewBox.Height >= 0)
-        //    {
-        //        ZoomViewBox.Width += newvalue;
-        //        ZoomViewBox.Height += newvalue;
-        //    }
-        //}
-
-        //private void ZoomViewBox_MouseWheel(object sender, MouseWheelEventArgs e)
-        //{
-        //    UpdateViewBox((e.Delta > 0) ? 5 : -5);
-        //}
     }
 
 
