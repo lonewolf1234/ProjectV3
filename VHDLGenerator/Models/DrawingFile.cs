@@ -12,8 +12,10 @@ using VHDLGenerator.Models;
 
 namespace VHDLGenerator.Models
 {
-    class DrawingFile
+    public class DrawingFile
     {
+        #region
+
         //canvas does not exist within this file
 
         //private void RenderDatapath(DataPathModel _data)
@@ -128,5 +130,33 @@ namespace VHDLGenerator.Models
         //    }
 
         //}
+        #endregion
+
+        public void DrawDatapath(DataPathModel _data , Canvas _canvas)
+        {
+            Rectangle Datapath = new Rectangle()
+            {
+                Stroke = Brushes.PaleVioletRed,
+                StrokeThickness = 2,
+                Width = _canvas.ActualWidth - 30,
+                Height = _canvas.ActualHeight - 30,
+            };
+
+            Point startpoint = new Point(30, 30);
+            Canvas.SetTop(Datapath, startpoint.Y);
+            Canvas.SetLeft(Datapath, startpoint.X);
+            _canvas.Children.Add(Datapath);
+        }
+
+        public void DrawComponents(DataPathModel _data , Canvas canvas)
+        {
+
+        }
+
+        public void DrawSignals(DataPathModel _data , Canvas _canvas)
+        {
+
+        }
+
     }
 }

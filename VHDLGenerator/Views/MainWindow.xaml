@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:VHDLGenerator.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+       
         
         Title="MainWindow" Height="650" Width="1110">
     <Grid>
@@ -57,7 +58,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="6*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" >
@@ -67,7 +68,9 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0">
-                    <StackPanel>
+
+                    
+                    <StackPanel VerticalAlignment="Stretch">
                         <Label Content="Project File View" HorizontalAlignment="Stretch" FontSize="16" FontStyle="Normal" Background="LightGray" HorizontalContentAlignment="Center"/>
 
                         <TreeView Name="CustomTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
@@ -78,6 +81,7 @@
                             </TreeView.ItemTemplate>
                         </TreeView>
                     </StackPanel>
+                   
                 </Grid>
                 
                 <Grid Grid.Row="1">
@@ -91,8 +95,8 @@
                                  
                                   >
                             <TreeView.ItemTemplate >
-                                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                                    <TextBlock Text="{Binding Title}" />
+                                <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
+                                    <TextBlock Text="{Binding Title}"/>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
@@ -105,7 +109,16 @@
             </Grid>
 
             <Grid Grid.Column="1" Background="#eee">
-               
+
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+                    <Canvas x:Name="DrawingCanvas" Height="780" Width="1320"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                    </Canvas>
+
+                </ScrollViewer>
+
+
 
             </Grid>
 
