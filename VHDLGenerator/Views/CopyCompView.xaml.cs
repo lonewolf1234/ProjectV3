@@ -19,11 +19,11 @@ namespace VHDLGenerator.Views
     /// <summary>
     /// Interaction logic for Window_CopyComp.xaml
     /// </summary>
-    public partial class Window_CopyComp : Window
+    public partial class CopyCompView : Window
     {
         CopyCompViewModel model;
 
-        public Window_CopyComp(DataPathModel data)
+        public CopyCompView(DataPathModel data)
         {
             InitializeComponent();
             model = new CopyCompViewModel(data);

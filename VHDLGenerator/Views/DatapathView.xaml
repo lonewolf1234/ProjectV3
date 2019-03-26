@@ -1,4 +1,4 @@
-﻿   <Window x:Class="VHDLGenerator.Views.Window_Component"
+﻿<Window x:Class="VHDLGenerator.Views.DatapathView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +6,7 @@
         xmlns:local="clr-namespace:VHDLGenerator.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Create Component" Height="600" Width="600" MinHeight="600" MinWidth="600">
-
+        Title="Create Datapath" Height="600" Width="600" MinHeight="600" MinWidth="600">
     <Grid>
 
         <!-- Grid Split into 2 sections. The first is for the name and behavourial. The second is for the table-->
@@ -30,6 +29,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="5*"/>
+              
             </Grid.ColumnDefinitions>
 
 
@@ -65,7 +65,7 @@
             />
 
             <TextBox
-                 Name="ArchNameTB"
+                Name="ArchNameTB"
                 Grid.Row="1"
                 Grid.Column="1"
                 VerticalAlignment="Center"
@@ -103,9 +103,9 @@
                     />
                     <TextBox
                        Name="PortName_TB"
-                       Width="150"
+                       Width="145"
                        Margin="30,5"
-                       Text="{Binding Path=PortNameTxt, ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                       Text="{Binding Path=PortNameTxt , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
                        ToolTip="{Binding Path=ErrorCollection[PortNameTxt]}"
                     />
                 </StackPanel>
@@ -117,12 +117,12 @@
                         Width="150"
                         HorizontalContentAlignment="Right"
                     />
+
                     <ComboBox Name="Direction_CB" Width="55" Margin="30,5" 
-                              ItemsSource="{Binding Path=GetDirections}" 
                               SelectedValue="{Binding Path=DirectionSel , ValidatesOnDataErrors=True ,UpdateSourceTrigger=PropertyChanged}"
+                              ItemsSource="{Binding Path=GetDirections}"
                               ToolTip="{Binding Path=ErrorCollection[DirectionSel]}"
-                              >
-                    </ComboBox>
+                    />
                 </StackPanel>
 
                 <!-- Third Stack Panel-->
@@ -135,7 +135,7 @@
                     <CheckBox
                         Name="Bus_CB" 
                         Margin="30,5"
-                        IsChecked="{Binding Path=BusSel}"
+                        IsChecked="{Binding Path=BusSel }"
                     />
                 </StackPanel>
 
@@ -192,14 +192,12 @@
 
 
             <!-- DataGrid to display the port data -->
-            <DataGrid Name="PortDataGrid" HorizontalAlignment="Center" VerticalAlignment="Top" Height="175"
+            <DataGrid Name="PortDataGrid" VerticalAlignment="Top" Height="175" Width="408" HorizontalAlignment="Center" 
                       ItemsSource="{Binding Datagrid}" AutoGenerateColumns="False" IsReadOnly="True" SelectedItem="{Binding DataGridItem}">
-
-                <!-- Column Header text and Binding-->
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Port Name" Width="100" Binding="{Binding Name}"/>
                     <DataGridTextColumn Header="Direction" Width="100" Binding="{Binding Direction}"/>
-                    <DataGridTextColumn Header="Bus" Width="100" Binding="{Binding Bus}"/>
+                    <DataGridCheckBoxColumn Header="Bus" Width="100" Binding="{Binding Bus}"/>
                     <DataGridTextColumn Header="MSB" Width="50" Binding="{Binding MSB}"/>
                     <DataGridTextColumn Header="LSB" Width="50" Binding="{Binding LSB}"/>
                 </DataGrid.Columns>
@@ -210,6 +208,12 @@
                         <MenuItem Name="DeletePort" Header="Delete" Command="{Binding DeletePortCommand}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
+
+
+                <!-- Column Header text and Binding-->
+
+
+
             </DataGrid>
 
         </Grid>
@@ -218,7 +222,6 @@
         <Grid Grid.Row="3">
             <Button
                 Grid.Row="3"
-                
                 Name="Cancel"
                 Content="Cancel"
                 VerticalAlignment="Center"
@@ -231,7 +234,6 @@
 
             <Button
                 Name="Finish"
-               
                 Content="Finish"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"
@@ -244,5 +246,4 @@
         </Grid>
 
     </Grid>
-
 </Window>

@@ -90,47 +90,48 @@
     <Compile Include="Templates\DatapathTemplateCode.cs" />
     <Compile Include="ViewModels\Commands\DeleteCommand.cs" />
     <Compile Include="ViewModels\Commands\EditCommand.cs" />
+    <Compile Include="ViewModels\Commands\OpenCommand.cs" />
     <Compile Include="ViewModels\ComponentViewModel.cs" />
     <Compile Include="ViewModels\CopyCompViewModel.cs" />
     <Compile Include="ViewModels\DataPathViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\SignalViewModel.cs" />
-    <Compile Include="Views\MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="Views\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Window_Component.xaml.cs">
-      <DependentUpon>Window_Component.xaml</DependentUpon>
+    <Compile Include="Views\ComponentView.xaml.cs">
+      <DependentUpon>ComponentView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Window_CopyComp.xaml.cs">
-      <DependentUpon>Window_CopyComp.xaml</DependentUpon>
+    <Compile Include="Views\CopyCompView.xaml.cs">
+      <DependentUpon>CopyCompView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Window_Datapath.xaml.cs">
-      <DependentUpon>Window_Datapath.xaml</DependentUpon>
+    <Compile Include="Views\DatapathView.xaml.cs">
+      <DependentUpon>DatapathView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Window_Signal.xaml.cs">
-      <DependentUpon>Window_Signal.xaml</DependentUpon>
+    <Compile Include="Views\SignalView.xaml.cs">
+      <DependentUpon>SignalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Window_Component.xaml">
+    <Page Include="Views\ComponentView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Window_CopyComp.xaml">
+    <Page Include="Views\CopyCompView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Window_Datapath.xaml">
+    <Page Include="Views\DatapathView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Window_Signal.xaml">
+    <Page Include="Views\SignalView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

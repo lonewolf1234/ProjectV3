@@ -22,7 +22,7 @@ namespace VHDLGenerator.Views
     /// Sets the DataContext of the Window to that of the Component ViewModel
     /// To allow for Bindings
     /// </summary>
-    public partial class Window_Component : Window
+    public partial class ComponentView : Window
     {
         #region Private Varible
         private ComponentViewModel Data;
@@ -35,7 +35,7 @@ namespace VHDLGenerator.Views
 
         #region Methods
         //constructor
-        public Window_Component(DataPathModel data)
+        public ComponentView(DataPathModel data)
         {
             InitializeComponent();
             Data = new ComponentViewModel(data);            //Creates an instance for the ComponentViewModel

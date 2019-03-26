@@ -22,7 +22,7 @@ namespace VHDLGenerator.Views
     /// Sets the DataContext of the Window to that of the Datapath ViewModel
     /// To allow for Bindings
     /// </summary>
-    public partial class Window_Datapath : Window
+    public partial class DatapathView : Window
     {
         #region Private Variables
         private DataPathViewModel _Data;
@@ -38,7 +38,7 @@ namespace VHDLGenerator.Views
 
         #region Methods
         //constructor
-        public Window_Datapath()
+        public DatapathView()
         {
             InitializeComponent();
             _Data = new DataPathViewModel();            //Creates an instance for the DataPathViewModel

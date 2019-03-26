@@ -21,7 +21,7 @@ namespace VHDLGenerator.Views
     /// <summary>
     /// Interaction logic for Window_Signal.xaml
     /// </summary>
-    public partial class Window_Signal : Window
+    public partial class SignalView : Window
     {
         #region Properties
         public SignalModel GetSignalModel { get { return this._Data.GetSignal; } }
@@ -33,7 +33,7 @@ namespace VHDLGenerator.Views
 
         #region Window Methods
         //constructor that accepts a DatapathModel object to be used in the combo Boxes
-        public Window_Signal(DataPathModel _DataPath)
+        public SignalView(DataPathModel _DataPath)
         {
             InitializeComponent();
             _Data = new SignalViewModel(_DataPath);          //creates an instance of the SignalViewModel and passes the datapath data from the window to the viewmodel
