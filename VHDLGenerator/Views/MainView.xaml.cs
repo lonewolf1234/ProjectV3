@@ -624,22 +624,7 @@ namespace VHDLGenerator.Views
                 _canvas.Children.Add(line);
             }
         }
-
-
-
-        //private void UpdateViewBox(int newvalue)
-        //{
-        //    if((ZoomViewBox.Width >= 0) && ZoomViewBox.Height >= 0)
-        //    {
-        //        ZoomViewBox.Width += newvalue;
-        //        ZoomViewBox.Height += newvalue;
-        //    }
-        //}
-
-        //private void ZoomViewBox_MouseWheel(object sender, MouseWheelEventArgs e)
-        //{
-        //    UpdateViewBox((e.Delta > 0) ? 5 : -5);
-        //}
+        
     }
 
 

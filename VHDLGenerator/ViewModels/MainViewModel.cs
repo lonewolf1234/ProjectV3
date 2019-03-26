@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using VHDLGenerator.Models;
+using VHDLGenerator.ViewModels;
+using VHDLGenerator.ViewModels.Commands;
+using VHDLGenerator.Views;
 
 namespace VHDLGenerator.ViewModels
 {
@@ -22,61 +25,46 @@ namespace VHDLGenerator.ViewModels
         }
         #endregion
 
-        #region commented old code
-        //    private DataPathModel Data = new DataPathModel();
-        //    private List<string> _Title = new List<string>();
-        //    private TreeViewData _treeViewData = new TreeViewData();
+        public MainViewModel()
+        {
 
-        //    //public DataPathModel TreeviewData { get; set; }
-        //    public List<string> Title { get { return this._Title; } }
+        }
 
-        //    private DataPathModel _MainWinData { get; set; }
-        //    public DataPathModel MainWinData { get { return _MainWinData; } set { this._MainWinData = value; OnPropertyChanged("TreeviewData"); } }
+        #region Open DatapathView Command
+        public OpenCommand OpenDatapathViewCommand { get; private set; }
+        private void Btn_Datapath_Click()
+        {
+            DatapathView window_Datapath = new DatapathView();
+            List<PointData> datapoints = new List<PointData>();
+            if (window_Datapath.ShowDialog() == true)
+            {
+                try
+                {
+                    _dataPath = window_Datapath.GetDataPathModel;           //Gets the DataPath Object from the Datapath menu and passes it to _datapath
 
-        //    public TreeViewData TreeviewData
-        //    {
-        //        get { return _treeViewData; }
-        //        set
-        //        {
-        //            this._treeViewData = value;
+                    Btn_Component.IsEnabled = true;                         //Disables the Datapath button and enables the other buttons
+                    Btn_Signal.IsEnabled = false;
+                    Btn_Datapath.IsEnabled = false;
+                    Btn_Copy_Component.IsEnabled = false;
 
-        //            if(MainWinData.Name != null)
-        //            {
-        //                _treeViewData.Title = Data.Name;
-        //            }
+                    GenerateDatapath(_dataPath);                            //DataPath Code Generation
 
-        //            if(MainWinData.Ports != null)
-        //            {
-        //                TreeViewData tv = new TreeViewData();
-        //                tv.Title = "Ports";
-        //                _treeViewData.Items.Add(tv);
-        //            }
+                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
 
-        //            if(MainWinData.Signals != null)
-        //            {
-        //                TreeViewData tv = new TreeViewData();
-        //                tv.Title = "Signal";
-        //                _treeViewData.Items.Add(tv);
-        //            }
-        //        }
-        //    }
+                    Canvas canvas = new Canvas();
+                    canvas = this.DrawingCanvas;
 
-        //    public MainViewModel(DataPathModel data)
-        //    {
-        //        this.Data = data;
-        //    }
-        //}
-
-        //public class TreeViewData
-        //{
-        //    public TreeViewData()
-        //    {
-        //        this.Items = new List<TreeViewData>();
-        //    }
-        //    public string Title { get; set; }
-        //    public List<TreeViewData> Items { get; set; }
+                    datapoints = DrawDatapath(_dataPath, canvas);
+                    foreach (PointData data in datapoints)
+                    {
+                        DataPoints.Add(data);
+                    }
+                }
+                catch (Exception) { }
+            }
+        }
         #endregion
-
 
     }
 
