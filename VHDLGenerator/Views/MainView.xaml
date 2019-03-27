@@ -21,7 +21,8 @@
                     Width="110" 
                     Height="30"
                     Background="LightSteelBlue"
-                    Click="Btn_Datapath_Click"/>
+                    IsEnabled="{Binding DatapathEnable}"
+                    Command="{Binding OpenDatapathViewCommand}"/>
 
                 <Button Name="Btn_Component"
                     Content="Create Component" 
@@ -30,6 +31,7 @@
                     Width="110" 
                     Height="30"
                     Background="LightSteelBlue"
+                    IsEnabled="{Binding Path=CompEnable}"
                     Click="Btn_Component_Click"/>
 
                 <Button Name="Btn_Copy_Component"
@@ -39,6 +41,7 @@
                     Width="110" 
                     Height="30"
                     Background="LightSteelBlue"
+                    IsEnabled="{Binding Path=CopyCompEnable}"
                     Click="Btn_Copy_Component_Click"/>
 
                 <Button Name="Btn_Signal"
@@ -46,7 +49,8 @@
                     HorizontalAlignment="Right" 
                     VerticalAlignment="Top" 
                     Width="110" 
-                    Height="30" 
+                    Height="30"
+                    IsEnabled="{Binding Path=SignalEnable}"    
                     Background="LightSteelBlue"
                     Click="Btn_Signal_Click"/>
                 
@@ -73,10 +77,10 @@
                     <StackPanel VerticalAlignment="Stretch">
                         <Label Content="Project File View" HorizontalAlignment="Stretch" FontSize="16" FontStyle="Normal" Background="LightGray" HorizontalContentAlignment="Center"/>
 
-                        <TreeView Name="CustomTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0">
+                        <TreeView Name="CustomTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" ItemsSource="{Binding Path=ProjectChildren}">
                             <TreeView.ItemTemplate>
                                 <HierarchicalDataTemplate ItemsSource="{Binding Items}">
-                                    <TextBlock Text="{Binding Title}" />
+                                    <TextBlock Text="{Binding Header}" />
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>
@@ -91,12 +95,11 @@
 
                         <Button Name="Btn_OpenFile" Content="Open File" Height="25" VerticalAlignment="Bottom" Click="Btn_OpenFile_Click" Background="LightSteelBlue"/>
 
-                        <TreeView Name="CodeTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0" 
-                                 
-                                  >
+                        <TreeView Name="CodeTreeView" Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0"  ItemsSource="{Binding Path=CodeChildren}"
+                              >
                             <TreeView.ItemTemplate >
                                 <HierarchicalDataTemplate ItemsSource="{Binding Items}" >
-                                    <TextBlock Text="{Binding Title}"/>
+                                    <TextBlock Text="{Binding Header}"/>
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>

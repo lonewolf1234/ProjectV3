@@ -65,54 +65,55 @@ namespace VHDLGenerator.Views
         public MainView()
         {
             InitializeComponent();
-            _dataPath = new DataPathModel();
-            _debugPath = (string)System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);     //Path to the location of the executable
-            CreateFolder();                                                                                     //Path to the location of the executable moved one folder up
-            _id = 1;
+            //_dataPath = new DataPathModel();
+            //_debugPath = (string)System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);     //Path to the location of the executable
+            //CreateFolder();                                                                                     //Path to the location of the executable moved one folder up
+            //_id = 1;
 
-            Btn_Component.IsEnabled = false;
-            Btn_Signal.IsEnabled = false;
-            Btn_Datapath.IsEnabled = true;
-            Btn_Copy_Component.IsEnabled = false;
-            DataPoints = new List<PointData>();
+            //Btn_Component.IsEnabled = false;
+            //Btn_Signal.IsEnabled = false;
+            //Btn_Datapath.IsEnabled = true;
+            //Btn_Copy_Component.IsEnabled = false;
+            //DataPoints = new List<PointData>();
 
             _mainViewModel = new MainViewModel();
             this.DataContext = _mainViewModel;
             //_loaded = false;
         }
 
-        private void Btn_Datapath_Click(object sender, RoutedEventArgs e)
-        {
-            DatapathView window_Datapath = new DatapathView();
-            List<PointData> datapoints = new List<PointData>();
-            if (window_Datapath.ShowDialog() == true)
-            {
-                try
-                {
-                    _dataPath = window_Datapath.GetDataPathModel;           //Gets the DataPath Object from the Datapath menu and passes it to _datapath
+        //private void Btn_Datapath_Click(object sender, RoutedEventArgs e)
+        //{
+        //    DatapathView window_Datapath = new DatapathView();
+        //    List<PointData> datapoints = new List<PointData>();
+        //    if (window_Datapath.ShowDialog() == true)
+        //    {
+        //        try
+        //        {
+        //            _dataPath = window_Datapath.GetDataPathModel;           //Gets the DataPath Object from the Datapath menu and passes it to _datapath
 
-                    Btn_Component.IsEnabled = true;                         //Disables the Datapath button and enables the other buttons
-                    Btn_Signal.IsEnabled = false;
-                    Btn_Datapath.IsEnabled = false;
-                    Btn_Copy_Component.IsEnabled = false;
+        //            Btn_Component.IsEnabled = true;                         //Disables the Datapath button and enables the other buttons
+        //            Btn_Signal.IsEnabled = false;
+        //            Btn_Datapath.IsEnabled = false;
+        //            Btn_Copy_Component.IsEnabled = false;
 
-                    GenerateDatapath(_dataPath);                            //DataPath Code Generation
+        //            GenerateDatapath(_dataPath);                            //DataPath Code Generation
 
-                    LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
-                    LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
+        //            LoadFileTree(_dataPath);                                         //Loads text into the Project file tree view using info in _dataPath
+        //            LoadCodeTree(_dataPath);                                         //Loads generated code file names into the tree view using the _newfolderPath
 
-                    Canvas canvas = new Canvas();
-                    canvas = this.DrawingCanvas;
+        //            Canvas canvas = new Canvas();
+        //            canvas = this.DrawingCanvas;
 
-                    datapoints = DrawDatapath(_dataPath, canvas);
-                    foreach(PointData data in datapoints)
-                    {
-                        DataPoints.Add(data);
-                    }
-                }
-                catch (Exception) { }
-            }
-        }
+        //            datapoints = DrawDatapath(_dataPath, canvas);
+        //            foreach(PointData data in datapoints)
+        //            {
+        //                DataPoints.Add(data);
+        //            }
+        //        }
+        //        catch (Exception) { }
+        //    }
+        //}
+
         private void Btn_Component_Click(object sender, RoutedEventArgs e)
         {
             ComponentView window_Component = new ComponentView(_dataPath);     //Creates new instance of component window 
