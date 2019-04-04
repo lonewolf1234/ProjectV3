@@ -246,6 +246,8 @@ namespace VHDLGenerator.Views
                     String DPText = DPTemplate.TransformText();                                             //Generates the code into a string using the DataPath Template file
                     
                     File.WriteAllText(System.IO.Path.Combine(_newFolderPath, Data.Name + ".txt"), DPText);  //Combines the folder path and datapath name to create the code file and writes the string to it
+                    File.WriteAllText(System.IO.Path.Combine(_newFolderPath, Data.Name + ".vhd"), DPText);  //Combines the folder path and datapath name to create the code file and writes the string to it
+
                 }
             }
             catch (Exception) { }
@@ -267,6 +269,7 @@ namespace VHDLGenerator.Views
                         ComponentTemplate CompTemplate = new ComponentTemplate(comp);                           //Creates an instance of the Component template using the comp passed into the function
                         String CompText = CompTemplate.TransformText();                                         //Generates the code into a string using the Component Template file
                         File.WriteAllText(System.IO.Path.Combine(_newFolderPath, comp.Name + ".txt"), CompText);   //Combines the folder path and comp name to create the code file and writes the string to it
+                        File.WriteAllText(System.IO.Path.Combine(_newFolderPath, comp.Name + ".vhd"), CompText);   //Combines the folder path and comp name to create the code file and writes the string to it
                         generated.Add(comp.Name);
                     }
                 }
