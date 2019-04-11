@@ -291,19 +291,6 @@ namespace VHDLGenerator.Views
                 maintv.Title = data.Name;                  //Adds the main tree named after the datapath name                                               
             }
 
-            //if (_dataPath.Ports != null)
-            //{
-            //    TreeViewData tv = new TreeViewData();
-            //    tv.Title = "Ports";                             //Add section named ports
-            //    foreach (PortModel port in _dataPath.Ports)
-            //    {
-            //        TreeViewData tv1 = new TreeViewData();
-            //        tv1.Title = port.Name;                      //Add ports as children to the section
-            //        tv.Items.Add(tv1);
-            //    }
-            //    maintv.Items.Add(tv);
-            //}
-
             if (data.Components != null)
             {
                 //TreeViewData tv = new TreeViewData();
@@ -317,13 +304,7 @@ namespace VHDLGenerator.Views
                 //maintv.Items.Add(tv);
             }
 
-            //if (_dataPath.Signals != null)
-            //{
-            //    TreeViewData tv = new TreeViewData();
-            //    tv.Title = "Signal";                            //Add section named signalss
-            //    maintv.Items.Add(tv);
-            //}
-
+      
             CustomTreeView.Items.Add(maintv);
         }
 
@@ -369,7 +350,7 @@ namespace VHDLGenerator.Views
 
                 foreach (string name in FileNames)
                 {
-                    if (name != data.Name + ".txt")
+                    if (name != data.Name + ".txt" && name.Substring(name.Length - 4) == ".txt")
                     {
                         TreeViewData tv = new TreeViewData()
                         {
@@ -381,15 +362,6 @@ namespace VHDLGenerator.Views
                 CodeTreeView.Items.Add(Componenttv);
             }
 
-            //foreach (string Path in FileNames)
-            //{
-            //    string FileName = "";
-            //    Uri uri = new Uri(Path);                                                        //Gets the path of the item
-            //    FileName = uri.Segments[uri.Segments.Length - 1];                               //Takes the last segment of the item URI (File Name)
-            //    TreeViewData tv = new TreeViewData();
-            //    tv.Title = FileName;                                                            //Adds the file name to the CodeTreeView
-            //    CodeTreeView.Items.Add(tv);
-            //}
         }
 
         public List<string> PathtoName(List<string> paths)
@@ -544,9 +516,9 @@ namespace VHDLGenerator.Views
                 _canvas.Children.Add(Component);
 
 
-                Label ComponentName = new Label()
+                TextBlock ComponentName = new TextBlock()
                 {
-                    Content = _data.Components[i].Name,
+                    Text = "cop"+_data.Components[i].ID +":" + _data.Components[i].Name,
                     FontSize = 20
                 };
                 Point NamePoint = new Point(((Component.Width / 2) + StartPoints[i].X) - 50, StartPoints[i].Y - 30);
@@ -628,21 +600,6 @@ namespace VHDLGenerator.Views
             }
         }
 
-
-
-        //private void UpdateViewBox(int newvalue)
-        //{
-        //    if((ZoomViewBox.Width >= 0) && ZoomViewBox.Height >= 0)
-        //    {
-        //        ZoomViewBox.Width += newvalue;
-        //        ZoomViewBox.Height += newvalue;
-        //    }
-        //}
-
-        //private void ZoomViewBox_MouseWheel(object sender, MouseWheelEventArgs e)
-        //{
-        //    UpdateViewBox((e.Delta > 0) ? 5 : -5);
-        //}
     }
 
 
